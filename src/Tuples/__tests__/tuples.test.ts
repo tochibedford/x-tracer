@@ -1,4 +1,4 @@
-import { Point, tupleSum, tupleSubtract, tuple, Vector, negateTuple, scalarMult, scalarDiv } from '../index'
+import { Point, tupleSum, tupleSubtract, tuple, Vector, negateTuple, scalarMult, scalarDiv, magnitude } from '../index'
 
 describe("Creating Vectors and points from Tuples", ()=>{
     let pointFromTuple = tuple(4.3, -4.2, 3.1, 1)
@@ -108,6 +108,10 @@ describe("Operations on tuples", ()=>{
         const vector1 = new Vector(1,0,0)
         const vector2 = new Vector(0,1,0)
         const vector3 = new Vector(0,0,1)
+
+        expect(magnitude(vector1)).toEqual(1)
+        expect(magnitude(vector2)).toEqual(1)
+        expect(magnitude(vector3)).toEqual(1)
     })
 
 })

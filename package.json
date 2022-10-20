@@ -7,7 +7,8 @@
   "types": "./dist/types/index.d.ts",
   "scripts": {
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "html": "npx parcel ./src/html-tests/index.html --dist-dir ./parcel-dist --no-cache"
   },
   "keywords": [],
   "author": "",

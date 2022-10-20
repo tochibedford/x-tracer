@@ -1,4 +1,4 @@
-import { Point, tupleSum, Vector } from "./index";
+import { tupleSum } from "./index";
 class Projectile {
     position;
     velocity;
@@ -20,10 +20,5 @@ function tick(env, proj) {
     proj.velocity = tupleSum(proj.velocity, tupleSum(env.gravity, env.wind));
     return proj;
 }
-const p = new Projectile(new Point(0, 1, 0), new Vector(1, 1, 0));
-const e = new Environment(new Vector(0, -0.1, 0), new Vector(-0.01, 0, 0));
-for (let i = 0; i < 100; i++) {
-    tick(e, p);
-    console.log();
-}
+export { Projectile, Environment, tick };
 //# sourceMappingURL=projectiles.js.map

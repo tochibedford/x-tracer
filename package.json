@@ -4,6 +4,7 @@
   "description": "A ray-tracer program for displaying 3d scenes",
   "main": "index.js",
   "type": "module",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "test": "jest",
     "build": "tsc"

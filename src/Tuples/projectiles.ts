@@ -36,10 +36,8 @@ function tick(env: Environment, proj: Projectile): Projectile {
     return proj
 }
 
-const p = new Projectile(new Point(0,1,0), new Vector(1,1,0))
-const e = new Environment(new Vector(0,-0.1,0), new Vector(-0.01,0,0))
-
-for (let i=0; i<100; i++) {
-    tick(e, p)
-    console.log()
-} 
+export {
+    Projectile,
+    Environment,
+    tick
+}

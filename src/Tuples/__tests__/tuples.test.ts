@@ -1,4 +1,4 @@
-import { Point, tupleSum, tupleSubtract, tuple, Vector, negateTuple, scalarMult, scalarDiv, magnitude } from '../index'
+import { Point, tupleSum, tupleSubtract, tuple, Vector, negateTuple, scalarMult, scalarDiv, magnitude, normalize } from '../index'
 
 describe("Creating Vectors and points from Tuples", ()=>{
     let pointFromTuple = tuple(4.3, -4.2, 3.1, 1)
@@ -111,12 +111,25 @@ describe("Operations on tuples", ()=>{
         const vector4 = new Vector(1,2,3)
         const vector5 = new Vector(-1,-2,-3)
 
-        console.log(magnitude(vector5))
         expect(magnitude(vector1)).toEqual(1)
         expect(magnitude(vector2)).toEqual(1)
         expect(magnitude(vector3)).toEqual(1)
         expect(magnitude(vector4)).toEqual(Math.sqrt(14))
         expect(magnitude(vector5)).toEqual(Math.sqrt(14))
+    })
+
+    test("Normalizing vectors", ()=>{
+        const vector1 = new Vector(4, 0, 0)
+        const vector2 = new Vector(1, 2, 3)
+
+        expect(normalize(vector1).equals(new Vector(1, 0, 0))).toBe(true)
+        expect(normalize(vector2).equals(new Vector(1/Math.sqrt(14), 2/Math.sqrt(14), 3/Math.sqrt(14)))).toBe(true)
+    })
+
+    test("Magnitude of a Normalized vector should always be 1", ()=>{
+        const vector = new Vector(1, 2, 3)
+
+        expect(magnitude(normalize(vector))).toEqual(1)
     })
 
 })

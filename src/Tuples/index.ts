@@ -99,11 +99,19 @@ function scalarDiv (tuple1: Ttuple, factor: number) {
     return tuple(tuple1.x / factor, tuple1.y / factor, tuple1.z / factor, tuple1.w)
 }
 
-function magnitude(tuple: Ttuple) {
+function magnitude(tuple: Ttuple): number {
     return Math.sqrt(tuple.components().reduce((prev, curr)=>{
         prev += curr**2
         return prev
     }, 0))
+}
+
+function normalize(tuple: Ttuple): Ttuple {
+    const tupleMag = magnitude(tuple)
+    const [nX, nY, nZ] = tuple.components().map(component=>{
+        return component/tupleMag
+    })
+    return new Vector(nX, nY, nZ)
 }
 
 export { 
@@ -114,6 +122,7 @@ export {
     scalarMult,
     scalarDiv,
     magnitude,
+    normalize,
     Point,
     Vector,
 }

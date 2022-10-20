@@ -3,6 +3,7 @@
   "version": "0.0.1a",
   "description": "A ray-tracer program for displaying 3d scenes",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "jest",
     "build": "tsc"

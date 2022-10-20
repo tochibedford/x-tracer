@@ -9,6 +9,7 @@
         "declarationDir": "dist/types",
         "declarationMap": true,
         "noImplicitAny": true,
+        "moduleResolution": "node"
         // "esModuleInterop": true
     },
     "exclude": ["node_modules", "**/*.d.ts"]

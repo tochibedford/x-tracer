@@ -50,6 +50,10 @@ class Vector implements Ttuple {
         return [this.x, this.y, this.z, this.w]
     }
 
+    dot = (other: Ttuple): number => {
+        return this.x * other.x + this.y * other.y + this.z * other.z + this.w * other.w
+    }
+
     equals = (other: Ttuple)=>{
         if (this.x === other.x && this.y === other.y && this.z === other.z && other instanceof Vector){
             return true

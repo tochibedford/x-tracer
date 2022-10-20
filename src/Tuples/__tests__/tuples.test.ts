@@ -132,4 +132,11 @@ describe("Operations on tuples", ()=>{
         expect(magnitude(normalize(vector))).toEqual(1)
     })
 
+    test("Vector dot product", ()=>{
+        const vector1 = new Vector(1, 2, 3)
+        const vector2 = new Vector(2, 3, 4)
+
+        expect(vector1.dot(vector2)).toEqual(20)
+    })
+
 })

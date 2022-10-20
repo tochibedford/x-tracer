@@ -101,8 +101,9 @@ function scalarDiv (tuple1: Ttuple, factor: number) {
 
 function magnitude(tuple: Ttuple) {
     return Math.sqrt(tuple.components().reduce((prev, curr)=>{
-        return prev + (curr*curr)
-    }))
+        prev += curr**2
+        return prev
+    }, 0))
 }
 
 export { 

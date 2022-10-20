@@ -108,10 +108,15 @@ describe("Operations on tuples", ()=>{
         const vector1 = new Vector(1,0,0)
         const vector2 = new Vector(0,1,0)
         const vector3 = new Vector(0,0,1)
+        const vector4 = new Vector(1,2,3)
+        const vector5 = new Vector(-1,-2,-3)
 
+        console.log(magnitude(vector5))
         expect(magnitude(vector1)).toEqual(1)
         expect(magnitude(vector2)).toEqual(1)
         expect(magnitude(vector3)).toEqual(1)
+        expect(magnitude(vector4)).toEqual(Math.sqrt(14))
+        expect(magnitude(vector5)).toEqual(Math.sqrt(14))
     })
 
 })

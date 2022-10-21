@@ -29,7 +29,7 @@ declare class Canvas implements TCanvas {
     state: Color[][];
     constructor(width: number, height: number);
     toArray(): number[][][];
-    toPPM(): void;
+    toPPM(): string;
     writePixel(x: number, y: number, color: Color): void;
     pixelAt(x: number, y: number): Color;
 }

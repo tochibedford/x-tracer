@@ -54,7 +54,15 @@ class Canvas implements TCanvas {
     constructor(width: number, height: number) {
         this.width = width
         this.height = height
-        this.state = Array(this.height).fill(Array(this.width).fill(new Color(0, 0, 0)))
+        this.state = []
+        //filling up the canvas state array
+        for(let j=0; j<this.height; j++) {
+            const row = []
+            for(let i=0; i<this.width; i++){
+                row.push(new Color(0, 0, 0))
+            }
+            this.state.push(row)
+        }
     }
 
     toArray(): number[][][] {
@@ -66,7 +74,27 @@ class Canvas implements TCanvas {
     }
 
     toPPM () {
-        return `P3\n${this.width} ${this.height}\n255\n`
+        const ppmMaxLineWidth = 70
+        const ppmHeader = `P3\n${this.width} ${this.height}\n255\n`
+        let ppmData = ""
+        this.state.forEach((row: Color[])=>{
+            let rowString = ""
+            row.forEach((color: Color, index: number)=>{
+                if(index != row.length-1){
+                    rowString += color.toArray().map((colorComponent: number)=>{
+                        return Math.max(0, Math.min(Math.round(colorComponent*255), 255))
+                    }).join(" ") + " "
+                }else{
+                    rowString += color.toArray().map((colorComponent: number)=>{
+                        return Math.max(0, Math.min(Math.round(colorComponent*255), 255))
+                    }).join(" ")
+
+                }
+            })
+            rowString += "\n"
+            ppmData += rowString
+        })
+        return ppmHeader + ppmData
     }
     
     writePixel(x: number, y: number, color: Color) {

@@ -49,6 +49,21 @@ describe("Canvas", ()=>{
     test("Constructing a PPM header", ()=>{
         const canvas = new Canvas(5, 3)
         const ppm = canvas.toPPM()
-        expect(ppm.split('\n').slice(0,3)).toEqual(["P3", "5 3", "255"])
+        expect(ppm.split("\n").slice(0,3)).toEqual(["P3", "5 3", "255"])
+    })
+
+    test("Constructing PPM pixel data", ()=>{
+        const canvas = new Canvas(5, 3)
+        const color1 = new Color(1.5, 0, 0)
+        const color2 = new Color(0, 0.5, 0)
+        const color3 = new Color(-0.5, 0, 1)
+        canvas.writePixel(0, 0, color1)
+        canvas.writePixel(2, 1, color2)
+        canvas.writePixel(4, 2, color3)
+
+        const ppm = canvas.toPPM()
+        const expected = "P3\n5 3\n255\n255 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 128 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0 0 0 0 0 0 255\n"
+
+        expect(ppm).toEqual(expected)
     })
 })

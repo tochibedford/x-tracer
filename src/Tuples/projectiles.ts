@@ -23,15 +23,15 @@ class Projectile implements TProjectile {
 class Environment implements TEnvironment {
     gravity: Vector
     wind: Vector
-    
-    constructor(gravity: Vector, wind: Vector){
+
+    constructor(gravity: Vector, wind: Vector) {
         this.gravity = gravity
-        this.wind = wind 
+        this.wind = wind
     }
 }
 
-function tick(env: Environment, proj: Projectile): Projectile { 
-    proj.position =  tupleSum(proj.position, proj.velocity) as Point
+function tick(env: Environment, proj: Projectile): Projectile {
+    proj.position = tupleSum(proj.position, proj.velocity) as Point
     proj.velocity = tupleSum(proj.velocity, tupleSum(env.gravity, env.wind)) as Vector
     return proj
 }

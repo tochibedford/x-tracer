@@ -2,7 +2,7 @@ declare type Ttuple = {
     x: number;
     y: number;
     z: number;
-    w: 0 | 1;
+    w?: 0 | 1;
     components: () => number[];
     equals: (other: Ttuple) => boolean;
 };
@@ -35,5 +35,5 @@ declare function scalarMult(tuple1: Ttuple, factor: number): Ttuple;
 declare function scalarDiv(tuple1: Ttuple, factor: number): Ttuple;
 declare function magnitude(tuple: Ttuple): number;
 declare function normalize(tuple: Ttuple): Ttuple;
-export { tuple, tupleSum, tupleSubtract, negateTuple, scalarMult, scalarDiv, magnitude, normalize, Point, Vector, };
+export { Ttuple, tuple, tupleSum, tupleSubtract, negateTuple, scalarMult, scalarDiv, magnitude, normalize, Point, Vector, };
 //# sourceMappingURL=index.d.ts.map

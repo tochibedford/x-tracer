@@ -1,8 +1,8 @@
 type Ttuple = {
-    x: number,
-    y: number,
-    z: number,
-    w: 0 | 1,
+    x: number
+    y: number
+    z: number
+    w?: 0 | 1
     components: () => number[],
     equals: (other: Ttuple) => boolean
 }
@@ -51,7 +51,7 @@ class Vector implements Ttuple {
     }
 
     cross = (other: Ttuple) => {
-        return new Vector((this.y*other.z - this.z * other.y), -(this.x*other.z-this.z*other.x), (this.x*other.y-this.y*other.x))
+        return new Vector((this.y * other.z - this.z * other.y), -(this.x * other.z - this.z * other.x), (this.x * other.y - this.y * other.x))
     }
 
     dot = (other: Ttuple): number => {
@@ -123,6 +123,7 @@ function normalize(tuple: Ttuple): Ttuple {
 }
 
 export {
+    Ttuple,
     tuple,
     tupleSum,
     tupleSubtract,

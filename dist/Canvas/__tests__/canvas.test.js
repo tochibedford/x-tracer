@@ -1,4 +1,4 @@
-import { colorAdd, colorSubtract, Color, colorScalarProduct, coloMultiply } from "../index";
+import { colorAdd, colorSubtract, Color, colorScalarProduct, colorMultiply, Canvas } from "../index";
 describe("Check that colors are red green and blue", () => {
     test("check that a color object is create properly", () => {
         const c = new Color(-0.5, 0.4, 1.7);
@@ -23,7 +23,19 @@ describe("Color operations", () => {
     test("Multiplying 2 colors: Hadamard/Schur Product", () => {
         const color1 = new Color(1, 0.2, 0.4);
         const color2 = new Color(0.9, 1, 0.1);
-        expect(coloMultiply(color1, color2).toArray()).toEqual([0.9 * 1, 0.2 * 1, 0.4 * 0.1]);
+        expect(colorMultiply(color1, color2).toArray()).toEqual([0.9 * 1, 0.2 * 1, 0.4 * 0.1]);
+    });
+});
+describe("Canvas", () => {
+    test("Creating a canvas", () => {
+        const canvas = new Canvas(2, 2);
+        expect(canvas.toArray()).toEqual([[[0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0]]]);
+    });
+    test("Writing pixels to a canvas", () => {
+        const canvas = new Canvas(10, 20);
+        const red = new Color(1, 0, 0);
+        canvas.writePixel(2, 3, red);
+        expect(canvas.pixelAt(2, 3).toArray()).toEqual(red.toArray());
     });
 });
 //# sourceMappingURL=canvas.test.js.map

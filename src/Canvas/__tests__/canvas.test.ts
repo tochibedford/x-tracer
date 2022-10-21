@@ -17,6 +17,6 @@ describe("Color operations", ()=>{
     test("Subtracting Colors", ()=>{
         const color1 = new Color(0.9, 0.6, 0.75)
         const color2 = new Color(0.7, 0.1, 0.25)
-        expect(subtractColors(color1, color2).toArray()).toEqual([0.2, 0.5, 0.5])
+        expect(subtractColors(color1, color2).toArray()).toEqual([0.9-0.7, 0.6-0.1, 0.75-0.25])
     })
 })

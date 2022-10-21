@@ -20,11 +20,11 @@ class Color implements TColor {
 }
 
 function addColors(color1: Color, color2: Color) {
-    return new Color(+(color1.red + color2.red).toFixed(4), +(color1.green + color2.green).toFixed(4), +(color1.blue + color2.blue).toFixed(4))
+    return new Color(color1.red + color2.red, color1.green + color2.green, color1.blue + color2.blue)
 }
 
 function subtractColors(color1: Color, color2: Color) {
-    return new Color(+(color1.red - color2.red).toFixed(4), +(color1.green - color2.green).toFixed(4), +(color1.blue - color2.blue).toFixed(4))
+    return new Color(color1.red - color2.red, color1.green - color2.green, color1.blue - color2.blue)
 }
 
 export {

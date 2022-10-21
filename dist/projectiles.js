@@ -1,15 +1,11 @@
-import { tupleSum } from "./index";
+import { tupleSum } from "./index.js";
 class Projectile {
-    position;
-    velocity;
     constructor(position, velocity) {
         this.position = position;
         this.velocity = velocity;
     }
 }
 class Environment {
-    gravity;
-    wind;
     constructor(gravity, wind) {
         this.gravity = gravity;
         this.wind = wind;

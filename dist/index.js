@@ -1,59 +1,51 @@
 class Point {
-    x;
-    y;
-    z;
-    w;
     constructor(x, y, z) {
+        this.components = () => {
+            return [this.x, this.y, this.z, this.w];
+        };
+        this.equals = (other) => {
+            if (this.x === other.x && this.y === other.y && this.z === other.z && other instanceof Point) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
         this.x = x;
         this.y = y;
         this.z = z;
         this.w = 1;
     }
-    components = () => {
-        return [this.x, this.y, this.z, this.w];
-    };
-    equals = (other) => {
-        if (this.x === other.x && this.y === other.y && this.z === other.z && other instanceof Point) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    };
 }
 class Vector {
-    x;
-    y;
-    z;
-    w;
     constructor(x, y, z) {
+        this.components = () => {
+            return [this.x, this.y, this.z, this.w];
+        };
+        this.cross = (other) => {
+            return new Vector((this.y * other.z - this.z * other.y), -(this.x * other.z - this.z * other.x), (this.x * other.y - this.y * other.x));
+        };
+        this.dot = (other) => {
+            return this.x * other.x + this.y * other.y + this.z * other.z + this.w * other.w;
+        };
+        this.equals = (other) => {
+            if (this.x === other.x && this.y === other.y && this.z === other.z && other instanceof Vector) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        this.negate = () => {
+            this.x = -this.x;
+            this.y = -this.y;
+            this.z = -this.z;
+        };
         this.x = x;
         this.y = y;
         this.z = z;
         this.w = 0;
     }
-    components = () => {
-        return [this.x, this.y, this.z, this.w];
-    };
-    cross = (other) => {
-        return new Vector((this.y * other.z - this.z * other.y), -(this.x * other.z - this.z * other.x), (this.x * other.y - this.y * other.x));
-    };
-    dot = (other) => {
-        return this.x * other.x + this.y * other.y + this.z * other.z + this.w * other.w;
-    };
-    equals = (other) => {
-        if (this.x === other.x && this.y === other.y && this.z === other.z && other instanceof Vector) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    };
-    negate = () => {
-        this.x = -this.x;
-        this.y = -this.y;
-        this.z = -this.z;
-    };
 }
 function tuple(x, y, z, w) {
     if (w === 1) {
@@ -86,7 +78,7 @@ function scalarDiv(tuple1, factor) {
 }
 function magnitude(tuple) {
     return Math.sqrt(tuple.components().reduce((prev, curr) => {
-        prev += curr ** 2;
+        prev += Math.pow(curr, 2);
         return prev;
     }, 0));
 }

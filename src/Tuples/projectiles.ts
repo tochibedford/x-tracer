@@ -1,4 +1,4 @@
-import { Point, tupleSum, Vector } from "./index"
+import { Point, tupleSum, Vector } from "./index.js"
 
 type TProjectile = {
     position: Point,

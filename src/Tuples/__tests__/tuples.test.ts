@@ -1,4 +1,4 @@
-import { Point, tupleSum, tupleSubtract, tuple, Vector, negateTuple, scalarMult, scalarDiv, magnitude, normalize } from '../index'
+import { Point, tupleSum, tupleSubtract, tuple, Vector, negateTuple, scalarMult, scalarDiv, magnitude, normalize } from '../index.js'
 
 describe("Creating Vectors and points from Tuples", () => {
     let pointFromTuple = tuple(4.3, -4.2, 3.1, 1)

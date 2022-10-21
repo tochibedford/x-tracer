@@ -1,4 +1,4 @@
-import { Point, Vector } from "./index";
+import { Point, Vector } from "./index.js";
 declare type TProjectile = {
     position: Point;
     velocity: Vector;

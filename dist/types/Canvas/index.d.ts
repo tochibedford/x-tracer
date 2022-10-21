@@ -10,7 +10,9 @@ declare class Color implements TColor {
     constructor(red: number, green: number, blue: number);
     toArray(): number[];
 }
-declare function addColors(color1: Color, color2: Color): Color;
-declare function subtractColors(color1: Color, color2: Color): Color;
-export { Color, addColors, subtractColors };
+declare function colorAdd(color1: Color, color2: Color): Color;
+declare function colorSubtract(color1: Color, color2: Color): Color;
+declare function colorScalarProduct(color1: Color, factor: number): Color;
+declare function coloMultiply(color1: Color, color2: Color): Color;
+export { Color, colorAdd, colorSubtract, colorScalarProduct, coloMultiply };
 //# sourceMappingURL=index.d.ts.map

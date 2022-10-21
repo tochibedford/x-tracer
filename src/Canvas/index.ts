@@ -19,16 +19,27 @@ class Color implements TColor {
     } 
 }
 
-function addColors(color1: Color, color2: Color) {
+function colorAdd(color1: Color, color2: Color) {
     return new Color(color1.red + color2.red, color1.green + color2.green, color1.blue + color2.blue)
 }
 
-function subtractColors(color1: Color, color2: Color) {
+function colorSubtract(color1: Color, color2: Color) {
     return new Color(color1.red - color2.red, color1.green - color2.green, color1.blue - color2.blue)
+}
+
+function colorScalarProduct(color1: Color, factor: number) {
+    return new Color(color1.red * factor, color1.green * factor, color1.blue * factor)
+}
+
+//hadamard product
+function coloMultiply(color1: Color, color2: Color){
+    return new Color(color1.red * color2.red, color1.green * color2.green, color1.blue * color2.blue)
 }
 
 export {
     Color,
-    addColors,
-    subtractColors
+    colorAdd,
+    colorSubtract,
+    colorScalarProduct,
+    coloMultiply
 }

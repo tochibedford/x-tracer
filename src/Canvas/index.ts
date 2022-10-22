@@ -1,16 +1,18 @@
+import { replaceAt } from "../helpers"
+
 type TColor = {
     red: number
     green: number
     blue: number
-    toArray: ()=>number[]
+    toArray: () => number[]
 }
 
 type TCanvas = {
     width: number
     height: number
-    toArray: ()=>number[][][]
-    toPPM: ()=>void
-    pixelAt: (x: number, y: number)=>Color
+    toArray: () => number[][][]
+    toPPM: () => void
+    pixelAt: (x: number, y: number) => Color
     writePixel: (x: number, y: number, color: Color) => void
 }
 
@@ -51,15 +53,15 @@ class Canvas implements TCanvas {
     height: number
     state: Color[][]
 
-    constructor(width: number, height: number) {
+    constructor(width: number, height: number, initalPixelValue: { r: number, g: number, b: number } = { r: 0, g: 0, b: 0 }) {
         this.width = width
         this.height = height
         this.state = []
         //filling up the canvas state array
-        for(let j=0; j<this.height; j++) {
+        for (let j = 0; j < this.height; j++) {
             const row = []
-            for(let i=0; i<this.width; i++){
-                row.push(new Color(0, 0, 0))
+            for (let i = 0; i < this.width; i++) {
+                row.push(new Color(initalPixelValue.r, initalPixelValue.g, initalPixelValue.b))
             }
             this.state.push(row)
         }
@@ -73,20 +75,19 @@ class Canvas implements TCanvas {
         })
     }
 
-    toPPM () {
-        const ppmMaxLineWidth = 70
+    toPPM() {
         const ppmHeader = `P3\n${this.width} ${this.height}\n255\n`
         let ppmData = ""
-        this.state.forEach((row: Color[])=>{
+        this.state.forEach((row: Color[]) => { // creates a new row unlimited line of ppm data and concatenates it to the main data
             let rowString = ""
-            row.forEach((color: Color, index: number)=>{
-                if(index != row.length-1){
-                    rowString += color.toArray().map((colorComponent: number)=>{
-                        return Math.max(0, Math.min(Math.round(colorComponent*255), 255))
+            row.forEach((color: Color, index: number) => {
+                if (index != row.length - 1) {
+                    rowString += color.toArray().map((colorComponent: number) => {
+                        return Math.max(0, Math.min(Math.round(colorComponent * 255), 255))
                     }).join(" ") + " "
-                }else{
-                    rowString += color.toArray().map((colorComponent: number)=>{
-                        return Math.max(0, Math.min(Math.round(colorComponent*255), 255))
+                } else {
+                    rowString += color.toArray().map((colorComponent: number) => {
+                        return Math.max(0, Math.min(Math.round(colorComponent * 255), 255))
                     }).join(" ")
 
                 }
@@ -94,9 +95,21 @@ class Canvas implements TCanvas {
             rowString += "\n"
             ppmData += rowString
         })
+
+        //ensures each line is 70 chars or below, and if the line is above 70 chars, it splits it without breaking a number
+        const ppmMaxLineWidth = 70
+        const ppmSplit = ppmData.split("\n")
+        for (let i = 0; i < ppmSplit.length; i++) {
+            if (ppmSplit[i].length > ppmMaxLineWidth) {
+                ppmSplit[i] = replaceAt(ppmSplit[i], ppmSplit[i].lastIndexOf(" ", 70), "\n")
+            }
+        }
+
+        ppmData = ppmSplit.join("\n")
+
         return ppmHeader + ppmData
     }
-    
+
     writePixel(x: number, y: number, color: Color) {
         this.state[y][x] = color // y is height-wise i.e rows of the array
     }
@@ -104,7 +117,7 @@ class Canvas implements TCanvas {
     pixelAt(x: number, y: number) {
         return this.state[y][x]
     }
-    
+
 }
 
 export {

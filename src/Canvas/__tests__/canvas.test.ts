@@ -66,4 +66,19 @@ describe("Canvas", ()=>{
 
         expect(ppm).toEqual(expected)
     })
+
+    test("Checking that the line limit is actually 70", ()=>{
+        const canvas = new Canvas(10, 2, {r: 1, g: 0.8, b: 0.6})
+        const ppm = canvas.toPPM()
+        const expected = "P3\n10 2\n255\n255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n153 255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204\n153 255 204 153 255 204 153 255 204 153 255 204 153\n"
+
+        expect(ppm).toEqual(expected)
+    })
+
+    test("Ensure that the ppm file is rterminated by a new line", ()=>{
+        const canvas = new Canvas(5, 3)
+        const ppm = canvas.toPPM()
+
+        expect(ppm.charAt(ppm.length-1)).toEqual("\n")
+    })
 })

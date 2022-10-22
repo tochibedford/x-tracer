@@ -1,3 +1,4 @@
+import { replaceAt } from "../helpers";
 class Color {
     constructor(red, green, blue) {
         this.red = red;
@@ -22,7 +23,7 @@ function colorMultiply(color1, color2) {
     return new Color(color1.red * color2.red, color1.green * color2.green, color1.blue * color2.blue);
 }
 class Canvas {
-    constructor(width, height) {
+    constructor(width, height, initalPixelValue = { r: 0, g: 0, b: 0 }) {
         this.width = width;
         this.height = height;
         this.state = [];
@@ -30,7 +31,7 @@ class Canvas {
         for (let j = 0; j < this.height; j++) {
             const row = [];
             for (let i = 0; i < this.width; i++) {
-                row.push(new Color(0, 0, 0));
+                row.push(new Color(initalPixelValue.r, initalPixelValue.g, initalPixelValue.b));
             }
             this.state.push(row);
         }
@@ -43,7 +44,6 @@ class Canvas {
         });
     }
     toPPM() {
-        const ppmMaxLineWidth = 70;
         const ppmHeader = `P3\n${this.width} ${this.height}\n255\n`;
         let ppmData = "";
         this.state.forEach((row) => {
@@ -63,6 +63,15 @@ class Canvas {
             rowString += "\n";
             ppmData += rowString;
         });
+        //ensures each line is 70 chars or below, and if the line is above 70 chars, it splits it without breaking a number
+        const ppmMaxLineWidth = 70;
+        const ppmSplit = ppmData.split("\n");
+        for (let i = 0; i < ppmSplit.length; i++) {
+            if (ppmSplit[i].length > ppmMaxLineWidth) {
+                ppmSplit[i] = replaceAt(ppmSplit[i], ppmSplit[i].lastIndexOf(" ", 70), "\n");
+            }
+        }
+        ppmData = ppmSplit.join("\n");
         return ppmHeader + ppmData;
     }
     writePixel(x, y, color) {

@@ -1,5 +1,5 @@
-import { Vector, Point } from "../../dist/index.js";
-import { Projectile, Environment, tick } from "../../dist/projectiles.js"
+import { Vector, Point } from "../../dist/Tuples/index.js";
+import { Projectile, Environment, tick } from "../../dist/Tuples/projectiles.js"
 
 
 const p = new Projectile(new Point(0,1,0), new Vector(1,1,0))

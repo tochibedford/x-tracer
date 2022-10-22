@@ -1,4 +1,4 @@
-import { replaceAt } from "../helpers";
+import { replaceAt } from "../helpers.js";
 class Color {
     constructor(red, green, blue) {
         this.red = red;

@@ -1,4 +1,4 @@
-import { replaceAt } from "../helpers"
+import { replaceAt } from "../helpers.js"
 
 type TColor = {
     red: number

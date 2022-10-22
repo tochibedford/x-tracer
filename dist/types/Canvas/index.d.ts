@@ -86,6 +86,24 @@ declare function colorScalarProduct(color1: Color, factor: number): Color;
  * ```
  */
 declare function colorMultiply(color1: Color, color2: Color): Color;
+/**
+ * Class representing a canvas
+ * A canvas is a simply a collection of pixels/colors.
+ * It may be more accurate to think of this canvas class as a container for a 2D array of colors, where each color represents a pixel that will display in a image.
+ * @remarks It is instantiated with  width and height and an optional default color for every pixel. Leaving the initial pixel value unset, will fall back on a default of Color(0, 0, 0)/black for every pixel.
+ * @example We can instantiate a 2 x 2 canvas like so:
+ * ```
+ * const canvas = new Canvas(2, 2)
+ * canvas.toArray()
+ *
+ * ///output
+ * [
+ *  [[0,0,0], [0,0,0]],
+ *  [[0,0,0], [0,0,0]]
+ * ]
+ * ```
+ * When you look at it in this array form it actually looks more like a 3D array with the dimension 2 x 2 x 3. The third Dimension '3' is actually for the R, G & B channel values
+ */
 declare class Canvas implements TCanvas {
     width: number;
     height: number;
@@ -95,9 +113,30 @@ declare class Canvas implements TCanvas {
         g: number;
         b: number;
     });
+    /**
+     * Th `toArray` Method converts the Canvas to a 3D array with dimension `width x height x 3`
+     * @returns A 3-dimensional number array.
+     */
     toArray(): number[][][];
+    /**
+     * Converts the canvas to a string formatted according to the [PPM Netpbm color image format](https://netpbm.sourceforge.net/doc/ppm.html) formatted
+     * @remarks The flavour of PPM used here is plain P3 and not the P6 format.You can read more about the PPM format [here](https://netpbm.sourceforge.net/doc/ppm.html)
+     * @returns A string formatted in the PPM P3 flavour that can be directly output to a file.
+     */
     toPPM(): string;
+    /**
+     * Writes a color value to a pixel at the given x, y coordinate
+     * @param x - X coordinate value
+     * @param y - X coordinate value
+     * @param color - Color object to write to the Canvas pixel
+     */
     writePixel(x: number, y: number, color: Color): void;
+    /**
+     * Reads the color value at a given coordinate value
+     * @param x - X coordinate value to read from
+     * @param y - Y coordinate value to read from
+     * @returns A {@link Color} object
+     */
     pixelAt(x: number, y: number): Color;
 }
 export { TCanvas, TColor, Color, Canvas, colorAdd, colorSubtract, colorScalarProduct, colorMultiply };

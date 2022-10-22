@@ -110,6 +110,24 @@ function colorMultiply(color1: Color, color2: Color) {
     return new Color(color1.red * color2.red, color1.green * color2.green, color1.blue * color2.blue)
 }
 
+/**
+ * Class representing a canvas
+ * A canvas is a simply a collection of pixels/colors.
+ * It may be more accurate to think of this canvas class as a container for a 2D array of colors, where each color represents a pixel that will display in a image.
+ * @remarks It is instantiated with  width and height and an optional default color for every pixel. Leaving the initial pixel value unset, will fall back on a default of Color(0, 0, 0)/black for every pixel.
+ * @example We can instantiate a 2 x 2 canvas like so:
+ * ```
+ * const canvas = new Canvas(2, 2)
+ * canvas.toArray() 
+ * 
+ * ///output
+ * [
+ *  [[0,0,0], [0,0,0]], 
+ *  [[0,0,0], [0,0,0]]
+ * ]
+ * ```
+ * When you look at it in this array form it actually looks more like a 3D array with the dimension 2 x 2 x 3. The third Dimension '3' is actually for the R, G & B channel values
+ */
 class Canvas implements TCanvas {
     width: number
     height: number
@@ -119,6 +137,7 @@ class Canvas implements TCanvas {
         this.width = width
         this.height = height
         this.state = []
+        
         //filling up the canvas state array
         for (let j = 0; j < this.height; j++) {
             const row = []
@@ -128,7 +147,11 @@ class Canvas implements TCanvas {
             this.state.push(row)
         }
     }
-
+    
+    /**
+     * Th `toArray` Method converts the Canvas to a 3D array with dimension `width x height x 3`
+     * @returns A 3-dimensional number array. 
+     */
     toArray(): number[][][] {
         return this.state.map(row => {
             return row.map(color => {
@@ -137,6 +160,11 @@ class Canvas implements TCanvas {
         })
     }
 
+    /**
+     * Converts the canvas to a string formatted according to the [PPM Netpbm color image format](https://netpbm.sourceforge.net/doc/ppm.html) formatted
+     * @remarks The flavour of PPM used here is plain P3 and not the P6 format.You can read more about the PPM format [here](https://netpbm.sourceforge.net/doc/ppm.html) 
+     * @returns A string formatted in the PPM P3 flavour that can be directly output to a file.
+     */
     toPPM() {
         const ppmHeader = `P3\n${this.width} ${this.height}\n255\n`
         let ppmData = ""
@@ -172,10 +200,22 @@ class Canvas implements TCanvas {
         return ppmHeader + ppmData
     }
 
+    /**
+     * Writes a color value to a pixel at the given x, y coordinate
+     * @param x - X coordinate value
+     * @param y - X coordinate value
+     * @param color - Color object to write to the Canvas pixel
+     */
     writePixel(x: number, y: number, color: Color) {
         this.state[y][x] = color // y is height-wise i.e rows of the array
     }
 
+    /**
+     * Reads the color value at a given coordinate value
+     * @param x - X coordinate value to read from
+     * @param y - Y coordinate value to read from
+     * @returns A {@link Color} object
+     */
     pixelAt(x: number, y: number) {
         return this.state[y][x]
     }

@@ -18,5 +18,5 @@ declare class Environment implements TEnvironment {
     constructor(gravity: Vector, wind: Vector);
 }
 declare function tick(env: Environment, proj: Projectile): Projectile;
-export { Projectile, Environment, tick };
+export { TProjectile, TEnvironment, Projectile, Environment, tick };
 //# sourceMappingURL=projectiles.d.ts.map

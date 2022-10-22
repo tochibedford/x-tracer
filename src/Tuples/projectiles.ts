@@ -37,6 +37,8 @@ function tick(env: Environment, proj: Projectile): Projectile {
 }
 
 export {
+    TProjectile,
+    TEnvironment,
     Projectile,
     Environment,
     tick

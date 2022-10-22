@@ -1,8 +1,26 @@
+/**
+ * A class that implements the {@link Ttuple} base type and represents a literal point a a 3-Dimensional Coordinate system
+ *
+ * @example
+ * ```
+ * const point = new Point(4, -4, 3)
+ * point.components() // -> [4, -4, 3, 1]
+ * ```
+ */
 class Point {
     constructor(x, y, z) {
+        /**
+         * This method gives the current state of the point instance
+         * @remarks This method returns 4 numbers, the first 3 representing the current position of the x,y,z coordinate system and a 4th number 'w' representing the fact that it is a Point and not a {@link Vector}
+         * @returns An array containing of numbers representing the current state/position of the Point instance
+         */
         this.components = () => {
             return [this.x, this.y, this.z, this.w];
         };
+        /**
+         * This method checks if the current point instance is identical to some other given point instance and that the other point is an instance of {@link Point}
+         * @param other
+         */
         this.equals = (other) => {
             if (this.x === other.x && this.y === other.y && this.z === other.z && other instanceof Point) {
                 return true;
@@ -17,6 +35,9 @@ class Point {
         this.w = 1;
     }
 }
+/**
+ * A class that implements the {@link Ttuple} base type and represents a Vector a a 3-Dimensional Coordinate system
+ */
 class Vector {
     constructor(x, y, z) {
         this.components = () => {

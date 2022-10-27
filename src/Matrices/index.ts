@@ -9,7 +9,7 @@ class Matrix extends Float64Array {
     private columns: number
     constructor(args: number[], rows: number, columns: number) {
         if (rows * columns !== args.length) {
-            throw Error(`Array: ${args} is not shapable to a ${rows} x ${columns} matrix \n Either remove the rows and columns or chaange the shape`)
+            throw Error(`Array: ${args} is not shapable to a ${rows} x ${columns} matrix \n Either remove the rows and columns or change the shape`)
         }
         super(args)
         this.rows = rows
@@ -50,11 +50,11 @@ class Matrix extends Float64Array {
     }
 
     getColumn(column: number): Float64Array {
-        if(column > this.columns - 1 || column < 0) {
+        if (column > this.columns - 1 || column < 0) {
             throw RangeError(`Column ${column} is out of range for this matrix and its current shape`)
         }
         const result = []
-        for(let i=column; i < this.length; i=i+this.columns) {
+        for (let i = column; i < this.length; i = i + this.columns) {
             result.push(this[i])
         }
 
@@ -94,11 +94,11 @@ class Matrix extends Float64Array {
 class IdentityMatrix extends Matrix {
     constructor(rows: number, columns: number) {
         const args: number[] = []
-        for(let i = 0; i < rows; i++) {
-            for(let j = 0; j < columns; j++) {
-                if(i===j){
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < columns; j++) {
+                if (i === j) {
                     args.push(1)
-                }else{
+                } else {
                     args.push(0)
                 }
             }
@@ -108,22 +108,22 @@ class IdentityMatrix extends Matrix {
 }
 
 function matrixMultiply(matrix1: Matrix | Ttuple, matrix2: Matrix | Ttuple): Matrix | Ttuple {
-    if((matrix1 instanceof Vector || matrix1 instanceof Point) && (matrix2 instanceof Vector || matrix2 instanceof Point)){ // do not multiply 2 tuples with this function
+    if ((matrix1 instanceof Vector || matrix1 instanceof Point) && (matrix2 instanceof Vector || matrix2 instanceof Point)) { // do not multiply 2 tuples with this function
         throw TypeError("Do not multiply 2 tuples using this function")
-    }else if (matrix1 instanceof Vector || matrix1 instanceof Point) { // if matrix1 is a tuple
+    } else if (matrix1 instanceof Vector || matrix1 instanceof Point) { // if matrix1 is a tuple
         matrix1 = matrix1 as Ttuple
         matrix2 = matrix2 as Matrix
         const result: number[] = []
-        for(let column=0; column < matrix2.dimensions[1]; column++) {
+        for (let column = 0; column < matrix2.dimensions[1]; column++) {
             result.push(dotProduct(matrix1.components(), Array.from(matrix2.getColumn(column))))
         }
         return new Matrix(result, 1, matrix2.dimensions[1])
-    } else if(matrix2 instanceof Vector || matrix2 instanceof Point){ // if matrix2 is a tuple
+    } else if (matrix2 instanceof Vector || matrix2 instanceof Point) { // if matrix2 is a tuple
         matrix1 = matrix1 as Matrix
         matrix2 = matrix2 as Ttuple
         matrix2 = new Matrix(matrix2.components(), matrix2.components().length, 1) // treat matrix2 like a single column matrix
         const result: number[] = []
-        for(let row=0; row < matrix1.dimensions[0]; row++) {
+        for (let row = 0; row < matrix1.dimensions[0]; row++) {
             const currentRow = matrix1.getRow(row)
             result.push(dotProduct(Array.from(currentRow), Array.from(matrix2)))
         }
@@ -134,9 +134,9 @@ function matrixMultiply(matrix1: Matrix | Ttuple, matrix2: Matrix | Ttuple): Mat
         const result = []
         matrix1 = matrix1 as Matrix
         matrix2 = matrix2 as Matrix
-        for(let row=0; row < matrix1.dimensions[0]; row++) {
+        for (let row = 0; row < matrix1.dimensions[0]; row++) {
             const currentRow = matrix1.getRow(row)
-            for(let column=0; column < matrix2.dimensions[1]; column++) {
+            for (let column = 0; column < matrix2.dimensions[1]; column++) {
                 result.push(dotProduct(Array.from(currentRow), Array.from(matrix2.getColumn(column))))
             }
         }
@@ -144,9 +144,17 @@ function matrixMultiply(matrix1: Matrix | Ttuple, matrix2: Matrix | Ttuple): Mat
     }
 }
 
+function transposeMatrix(matrix: Matrix): Matrix {
+    let result: number[] = []
+    for (let i = 0; i < matrix.dimensions[1]; i++) {
+        result = result.concat(Array.from(matrix.getColumn(i)))
+    }
+    return new Matrix(result, matrix.dimensions[0], matrix.dimensions[1])
+}
 
 export {
     Matrix,
     IdentityMatrix,
-    matrixMultiply
+    matrixMultiply,
+    transposeMatrix
 }

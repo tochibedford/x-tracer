@@ -1,5 +1,5 @@
 import { Point, Ttuple, Vector } from "../../Tuples";
-import { IdentityMatrix, Matrix, matrixMultiply } from "../index";
+import { IdentityMatrix, Matrix, matrixMultiply, transposeMatrix } from "../index";
 
 describe("Matrices", () => {
     test("Creating a 4x4 matrix", () => {
@@ -92,14 +92,24 @@ describe("Matrices", () => {
         expect((matrixMultiply(matrix1, matrix2) as Matrix).equals(new Matrix([20, 22, 50, 48, 44, 54, 114, 108, 40, 58, 110, 102, 16, 26, 46, 42], 4, 4)))
     })
 
-    test("Creating Identity Matrices", ()=>{
+    test("Creating Identity Matrices", () => {
         const identityMat = new IdentityMatrix(4, 4);
-        expect(Array.from(identityMat)).toEqual([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1])
+        expect(Array.from(identityMat)).toEqual([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1])
     })
 
-    test("Multiplying a matrix by an Identity Matrix", ()=>{
-        const matrix = new Matrix([0,1,2,4,1,2,4,8,2,4,8,16,4,8,16,32], 4, 4)
+    test("Multiplying a matrix by an Identity Matrix", () => {
+        const matrix = new Matrix([0, 1, 2, 4, 1, 2, 4, 8, 2, 4, 8, 16, 4, 8, 16, 32], 4, 4)
         const identityMat = new IdentityMatrix(4, 4);
-        expect(Array.from(matrixMultiply(matrix, identityMat) as Matrix)).toEqual([0,1,2,4,1,2,4,8,2,4,8,16,4,8,16,32])
+        expect(Array.from(matrixMultiply(matrix, identityMat) as Matrix)).toEqual([0, 1, 2, 4, 1, 2, 4, 8, 2, 4, 8, 16, 4, 8, 16, 32])
+    })
+
+    test("Transposing a matrix", () => {
+        const matrix = new Matrix([0, 9, 3, 0, 9, 8, 0, 8, 1, 8, 5, 3, 0, 0, 5, 8], 4, 4)
+        expect(Array.from(transposeMatrix(matrix))).toEqual([0, 9, 1, 0, 9, 8, 8, 0, 3, 0, 5, 5, 0, 8, 3, 8])
+    })
+
+    test("Transposing an Identity Matrix", () => {
+        const identityMat = new IdentityMatrix(4, 4)
+        expect(Array.from(transposeMatrix(identityMat))).toEqual(Array.from(identityMat))
     })
 })

@@ -91,6 +91,22 @@ class Matrix extends Float64Array {
     }
 }
 
+class IdentityMatrix extends Matrix {
+    constructor(rows: number, columns: number) {
+        const args: number[] = []
+        for(let i = 0; i < rows; i++) {
+            for(let j = 0; j < columns; j++) {
+                if(i===j){
+                    args.push(1)
+                }else{
+                    args.push(0)
+                }
+            }
+        }
+        super(args, rows, columns)
+    }
+}
+
 function matrixMultiply(matrix1: Matrix | Ttuple, matrix2: Matrix | Ttuple): Matrix | Ttuple {
     if((matrix1 instanceof Vector || matrix1 instanceof Point) && (matrix2 instanceof Vector || matrix2 instanceof Point)){ // do not multiply 2 tuples with this function
         throw TypeError("Do not multiply 2 tuples using this function")
@@ -131,5 +147,6 @@ function matrixMultiply(matrix1: Matrix | Ttuple, matrix2: Matrix | Ttuple): Mat
 
 export {
     Matrix,
+    IdentityMatrix,
     matrixMultiply
 }

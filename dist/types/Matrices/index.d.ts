@@ -52,5 +52,7 @@ declare function matrixDeterminant(matrix: Matrix): number;
 declare function subMatrix(matrix: Matrix, row: number, column: number): Matrix;
 declare function matrixMinor(matrix: Matrix, row: number, column: number): number;
 declare function matrixCofactor(matrix: Matrix, row: number, column: number): number;
-export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor };
+declare function canInvertMatrix(matrix: Matrix): boolean;
+declare function matrixInverse(matrix: Matrix): Matrix;
+export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor, canInvertMatrix, matrixInverse };
 //# sourceMappingURL=index.d.ts.map

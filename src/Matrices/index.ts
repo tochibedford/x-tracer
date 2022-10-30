@@ -153,40 +153,40 @@ function matrixTranspose(matrix: Matrix): Matrix {
 }
 
 function matrixDeterminant(matrix: Matrix): number {
-    if(matrix.dimensions[0] !== matrix.dimensions[1]){
+    if (matrix.dimensions[0] !== matrix.dimensions[1]) {
         throw TypeError(`Cannot calculate determinant for non-square matrices, this matrix is a ${matrix.dimensions[0]}x${matrix.dimensions[1]} matrix`)
-    }else{
-        if(matrix.dimensions[0] === 2){ // 2x2 matrix determinant
-            return (matrix[0]*matrix[3]) - (matrix[1]*matrix[2]) 
-        }else {
+    } else {
+        if (matrix.dimensions[0] === 2) { // 2x2 matrix determinant
+            return (matrix[0] * matrix[3]) - (matrix[1] * matrix[2])
+        } else {
             let result = 0
-            for(let c=0; c<matrix.dimensions[0]; c++) {
+            for (let c = 0; c < matrix.dimensions[0]; c++) {
                 result += matrix.elementAt(0, c) * matrixCofactor(matrix, 0, c)
             }
             return result
         }
     }
-    return  0
+    return 0
 }
 
 function subMatrix(matrix: Matrix, row: number, column: number): Matrix {
-    if(matrix.dimensions[0] < 3 || matrix.dimensions[1] < 3){
+    if (matrix.dimensions[0] < 3 || matrix.dimensions[1] < 3) {
         throw TypeError(`Cannot calculate submatrix for matrices with a dimension less than 3, this matrix is a ${matrix.dimensions[0]}x${matrix.dimensions[1]} matrix`)
     }
     const result = []
-    for(let r = 0; r<matrix.dimensions[0]; r++) {
-        for (let c = 0; c<matrix.dimensions[1]; c++) {
-            if(r != row && c != column) {
+    for (let r = 0; r < matrix.dimensions[0]; r++) {
+        for (let c = 0; c < matrix.dimensions[1]; c++) {
+            if (r != row && c != column) {
                 result.push(matrix.elementAt(r, c))
             }
         }
     }
 
-    return new Matrix(result, matrix.dimensions[0]-1, matrix.dimensions[1]-1)
+    return new Matrix(result, matrix.dimensions[0] - 1, matrix.dimensions[1] - 1)
 }
 
 function matrixMinor(matrix: Matrix, row: number, column: number): number {
-    if(matrix.dimensions[0] < 3 || matrix.dimensions[1] < 3) {
+    if (matrix.dimensions[0] < 3 || matrix.dimensions[1] < 3) {
         throw TypeError(`Cannot calculate minor for matrices with a dimension less than 3, this matrix is a ${matrix.dimensions[0]}x${matrix.dimensions[1]} matrix`)
     }
     const sub = subMatrix(matrix, row, column)
@@ -200,8 +200,33 @@ function matrixCofactor(matrix: Matrix, row: number, column: number): number {
     //if row is odd then even cols change the signs
     //therefore, if row + col is odd, sign changes else sign stays the same
 
-    return ((row+column)%2 ? -1:1) * matrixMinor(matrix, row, column)
-    
+    return ((row + column) % 2 ? -1 : 1) * matrixMinor(matrix, row, column)
+
+}
+
+function canInvertMatrix(matrix: Matrix): boolean {
+    return matrixDeterminant(matrix) ? true : false
+}
+
+function matrixInverse(matrix: Matrix): Matrix {
+    const det = matrixDeterminant(matrix)
+    if (det ? false : true) { //TODO should an error be thrown if inverse is not possible?
+        return matrix
+    }
+    //matrix of cofactors
+    const cofactorList = []
+    for (let row = 0; row < matrix.dimensions[0]; row++) {
+        for (let column = 0; column < matrix.dimensions[1]; column++) {
+            cofactorList.push(matrixCofactor(matrix, row, column))
+        }
+    }
+
+    const cofactorMatrix = new Matrix(cofactorList, matrix.dimensions[0], matrix.dimensions[1])
+    const cofactorTranspose = matrixTranspose(cofactorMatrix)
+
+    matrix = new Matrix(Array.from(cofactorTranspose).map(element => element / det), matrix.dimensions[0], matrix.dimensions[1])
+
+    return matrix
 }
 
 export {
@@ -212,5 +237,7 @@ export {
     matrixDeterminant,
     subMatrix,
     matrixMinor,
-    matrixCofactor
+    matrixCofactor,
+    canInvertMatrix,
+    matrixInverse
 }

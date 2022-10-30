@@ -191,5 +191,25 @@ function matrixCofactor(matrix, row, column) {
     //therefore, if row + col is odd, sign changes else sign stays the same
     return ((row + column) % 2 ? -1 : 1) * matrixMinor(matrix, row, column);
 }
-export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor };
+function canInvertMatrix(matrix) {
+    return matrixDeterminant(matrix) ? true : false;
+}
+function matrixInverse(matrix) {
+    const det = matrixDeterminant(matrix);
+    if (det ? false : true) { //TODO should an error be thrown if inverse is not possible?
+        return matrix;
+    }
+    //matrix of cofactors
+    const cofactorList = [];
+    for (let row = 0; row < matrix.dimensions[0]; row++) {
+        for (let column = 0; column < matrix.dimensions[1]; column++) {
+            cofactorList.push(matrixCofactor(matrix, row, column));
+        }
+    }
+    const cofactorMatrix = new Matrix(cofactorList, matrix.dimensions[0], matrix.dimensions[1]);
+    const cofactorTranspose = matrixTranspose(cofactorMatrix);
+    matrix = new Matrix(Array.from(cofactorTranspose).map(element => element / det), matrix.dimensions[0], matrix.dimensions[1]);
+    return matrix;
+}
+export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor, canInvertMatrix, matrixInverse };
 //# sourceMappingURL=index.js.map

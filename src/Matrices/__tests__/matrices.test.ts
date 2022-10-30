@@ -1,5 +1,16 @@
 import { Point, Ttuple, Vector } from "../../Tuples";
-import { IdentityMatrix, Matrix, matrixCofactor, matrixDeterminant, matrixMinor, matrixMultiply, matrixTranspose, subMatrix } from "../index";
+import {
+    canInvertMatrix,
+    IdentityMatrix,
+    Matrix,
+    matrixCofactor,
+    matrixDeterminant,
+    matrixInverse,
+    matrixMinor,
+    matrixMultiply,
+    matrixTranspose,
+    subMatrix
+} from "../index";
 
 describe("Matrices", () => {
     test("Creating a 4x4 matrix", () => {
@@ -146,5 +157,25 @@ describe("Matrices", () => {
 
         expect(matrixCofactor(matrix, 0, 0)).toBe(-12)
         expect(matrixCofactor(matrix, 1, 0)).toBe(-25)
+    })
+
+    test("Can tell invertable matrices for non-invertable ones", () => {
+        const matrix1 = new Matrix([6, 4, 4, 4, 5, 5, 7, 6, 4, -9, 3, -7, 9, 1, 7, -6], 4, 4)
+        const matrix2 = new Matrix([-4, 2, -2, -3, 9, 6, 2, 6, 0, -5, 1, -5, 0, 0, 0, 0], 4, 4)
+
+        expect(canInvertMatrix(matrix1)).toBeTruthy()
+        expect(canInvertMatrix(matrix2)).toBeFalsy()
+    })
+
+    test("Calculate inverse of a matrix", () => {
+        const matrix = new Matrix([-5, 2, 6, -8, 1, -5, 1, 8, 7, 7, -6, -7, 1, -3, 7, 4], 4, 4)
+        const inverse = matrixInverse(matrix)
+
+        expect(matrixDeterminant(matrix)).toBe(532)
+        expect(matrixCofactor(matrix, 2, 3)).toBe(-160)
+        expect(matrixCofactor(matrix, 3, 2)).toBe(105)
+        expect(inverse.elementAt(3, 2)).toEqual(-160 / 532)
+        expect(inverse.elementAt(2, 3)).toEqual(105 / 532)
+        expect(Array.from(inverse)).toEqual([116 / 532, 240 / 532, 128 / 532, -24 / 532, -430 / 532, -775 / 532, -236 / 532, 277 / 532, -42 / 532, -119 / 532, -28 / 532, 105 / 532, -278 / 532, -433 / 532, -160 / 532, 163 / 532])
     })
 })

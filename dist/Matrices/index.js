@@ -153,6 +153,13 @@ function matrixDeterminant(matrix) {
         if (matrix.dimensions[0] === 2) { // 2x2 matrix determinant
             return (matrix[0] * matrix[3]) - (matrix[1] * matrix[2]);
         }
+        else {
+            let result = 0;
+            for (let c = 0; c < matrix.dimensions[0]; c++) {
+                result += matrix.elementAt(0, c) * matrixCofactor(matrix, 0, c);
+            }
+            return result;
+        }
     }
     return 0;
 }
@@ -177,5 +184,12 @@ function matrixMinor(matrix, row, column) {
     const sub = subMatrix(matrix, row, column);
     return matrixDeterminant(sub); //a minor is the determinant of the subMatrix 
 }
-export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor };
+function matrixCofactor(matrix, row, column) {
+    //using 0 index
+    //if row is even then odd cols change the signs
+    //if row is odd then even cols change the signs
+    //therefore, if row + col is odd, sign changes else sign stays the same
+    return ((row + column) % 2 ? -1 : 1) * matrixMinor(matrix, row, column);
+}
+export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor };
 //# sourceMappingURL=index.js.map

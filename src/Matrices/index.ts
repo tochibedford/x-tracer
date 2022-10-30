@@ -158,6 +158,12 @@ function matrixDeterminant(matrix: Matrix): number {
     }else{
         if(matrix.dimensions[0] === 2){ // 2x2 matrix determinant
             return (matrix[0]*matrix[3]) - (matrix[1]*matrix[2]) 
+        }else {
+            let result = 0
+            for(let c=0; c<matrix.dimensions[0]; c++) {
+                result += matrix.elementAt(0, c) * matrixCofactor(matrix, 0, c)
+            }
+            return result
         }
     }
     return  0
@@ -188,6 +194,16 @@ function matrixMinor(matrix: Matrix, row: number, column: number): number {
     return matrixDeterminant(sub) //a minor is the determinant of the subMatrix 
 }
 
+function matrixCofactor(matrix: Matrix, row: number, column: number): number {
+    //using 0 index
+    //if row is even then odd cols change the signs
+    //if row is odd then even cols change the signs
+    //therefore, if row + col is odd, sign changes else sign stays the same
+
+    return ((row+column)%2 ? -1:1) * matrixMinor(matrix, row, column)
+    
+}
+
 export {
     Matrix,
     IdentityMatrix,
@@ -195,5 +211,6 @@ export {
     matrixTranspose,
     matrixDeterminant,
     subMatrix,
-    matrixMinor
+    matrixMinor,
+    matrixCofactor
 }

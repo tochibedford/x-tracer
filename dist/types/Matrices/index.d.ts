@@ -51,5 +51,6 @@ declare function matrixTranspose(matrix: Matrix): Matrix;
 declare function matrixDeterminant(matrix: Matrix): number;
 declare function subMatrix(matrix: Matrix, row: number, column: number): Matrix;
 declare function matrixMinor(matrix: Matrix, row: number, column: number): number;
-export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor };
+declare function matrixCofactor(matrix: Matrix, row: number, column: number): number;
+export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor };
 //# sourceMappingURL=index.d.ts.map

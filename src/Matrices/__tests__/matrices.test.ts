@@ -1,5 +1,5 @@
 import { Point, Ttuple, Vector } from "../../Tuples";
-import { IdentityMatrix, Matrix, matrixDeterminant, matrixMinor, matrixMultiply, matrixTranspose, subMatrix } from "../index";
+import { IdentityMatrix, Matrix, matrixCofactor, matrixDeterminant, matrixMinor, matrixMultiply, matrixTranspose, subMatrix } from "../index";
 
 describe("Matrices", () => {
     test("Creating a 4x4 matrix", () => {
@@ -118,6 +118,14 @@ describe("Matrices", () => {
         expect(matrixDeterminant(matrix)).toBe(17)
     })
 
+    test("Determinant of higher order matrices", () => {
+        const matrix1 = new Matrix([1, 2, 6, -5, 8, -4, 2, 6, 4], 3, 3)
+        const matrix2 = new Matrix([-2, -8, 3, 5, -3, 1, 7, 3, 1, 2, -9, 6, -6, 7, 7, -9], 4, 4)
+
+        expect(matrixDeterminant(matrix1)).toBe(-196)
+        expect(matrixDeterminant(matrix2)).toBe(-4071)
+    })
+
     test("Spotting subMatrices", () => {
         const matrix1 = new Matrix([1, 5, 0, -3, 2, 7, 0, 6, -3], 3, 3)
         const matrix2 = new Matrix([-6, 1, 1, 6, -8, 5, 8, 6, -1, 0, 8, 2, -7, 1, -1, 1], 4, 4)
@@ -131,5 +139,12 @@ describe("Matrices", () => {
 
         expect(matrixMinor(matrix, 1, 0)).toBe(25)
         expect(matrixMinor(matrix, 1, 0)).toBe(matrixDeterminant(subMatrix(matrix, 1, 0)))
+    })
+
+    test("Cofactors", () => {
+        const matrix = new Matrix([3, 5, 0, 2, -1, -7, 6, -1, 5], 3, 3)
+
+        expect(matrixCofactor(matrix, 0, 0)).toBe(-12)
+        expect(matrixCofactor(matrix, 1, 0)).toBe(-25)
     })
 })

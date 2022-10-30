@@ -1,3 +1,4 @@
+import { Ttuple } from "../Tuples";
 /**
  * This class represents a matrix and extends the Float64Array type
  */
@@ -21,6 +22,8 @@ declare class Matrix extends Float64Array {
      * ```
      */
     elementAt(row: number, column: number): number;
+    getRow(row: number): Float64Array;
+    getColumn(column: number): Float64Array;
     /**
      * Checks for equality between the current matrix instance and some other matrix
      * @param matrix Another matrix to compare with for equality
@@ -40,5 +43,13 @@ declare class Matrix extends Float64Array {
      */
     get dimensions(): [number, number];
 }
-export { Matrix };
+declare class IdentityMatrix extends Matrix {
+    constructor(rows: number, columns: number);
+}
+declare function matrixMultiply(matrix1: Matrix | Ttuple, matrix2: Matrix | Ttuple): Matrix | Ttuple;
+declare function matrixTranspose(matrix: Matrix): Matrix;
+declare function matrixDeterminant(matrix: Matrix): number;
+declare function subMatrix(matrix: Matrix, row: number, column: number): Matrix;
+declare function matrixMinor(matrix: Matrix, row: number, column: number): number;
+export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor };
 //# sourceMappingURL=index.d.ts.map

@@ -144,7 +144,7 @@ function matrixMultiply(matrix1: Matrix | Ttuple, matrix2: Matrix | Ttuple): Mat
     }
 }
 
-function transposeMatrix(matrix: Matrix): Matrix {
+function matrixTranspose(matrix: Matrix): Matrix {
     let result: number[] = []
     for (let i = 0; i < matrix.dimensions[1]; i++) {
         result = result.concat(Array.from(matrix.getColumn(i)))
@@ -152,9 +152,48 @@ function transposeMatrix(matrix: Matrix): Matrix {
     return new Matrix(result, matrix.dimensions[0], matrix.dimensions[1])
 }
 
+function matrixDeterminant(matrix: Matrix): number {
+    if(matrix.dimensions[0] !== matrix.dimensions[1]){
+        throw TypeError(`Cannot calculate determinant for non-square matrices, this matrix is a ${matrix.dimensions[0]}x${matrix.dimensions[1]} matrix`)
+    }else{
+        if(matrix.dimensions[0] === 2){ // 2x2 matrix determinant
+            return (matrix[0]*matrix[3]) - (matrix[1]*matrix[2]) 
+        }
+    }
+    return  0
+}
+
+function subMatrix(matrix: Matrix, row: number, column: number): Matrix {
+    if(matrix.dimensions[0] < 3 || matrix.dimensions[1] < 3){
+        throw TypeError(`Cannot calculate submatrix for matrices with a dimension less than 3, this matrix is a ${matrix.dimensions[0]}x${matrix.dimensions[1]} matrix`)
+    }
+    const result = []
+    for(let r = 0; r<matrix.dimensions[0]; r++) {
+        for (let c = 0; c<matrix.dimensions[1]; c++) {
+            if(r != row && c != column) {
+                result.push(matrix.elementAt(r, c))
+            }
+        }
+    }
+
+    return new Matrix(result, matrix.dimensions[0]-1, matrix.dimensions[1]-1)
+}
+
+function matrixMinor(matrix: Matrix, row: number, column: number): number {
+    if(matrix.dimensions[0] < 3 || matrix.dimensions[1] < 3) {
+        throw TypeError(`Cannot calculate minor for matrices with a dimension less than 3, this matrix is a ${matrix.dimensions[0]}x${matrix.dimensions[1]} matrix`)
+    }
+    const sub = subMatrix(matrix, row, column)
+
+    return matrixDeterminant(sub) //a minor is the determinant of the subMatrix 
+}
+
 export {
     Matrix,
     IdentityMatrix,
     matrixMultiply,
-    transposeMatrix
+    matrixTranspose,
+    matrixDeterminant,
+    subMatrix,
+    matrixMinor
 }

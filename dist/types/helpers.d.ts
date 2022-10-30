@@ -1,4 +1,5 @@
 declare function fEqual(a: number, b: number): boolean;
 declare function replaceAt(original: string, index: number, replacement: string): string;
-export { fEqual, replaceAt };
+declare function dotProduct(array1: number[], array2: number[]): number;
+export { fEqual, replaceAt, dotProduct };
 //# sourceMappingURL=helpers.d.ts.map

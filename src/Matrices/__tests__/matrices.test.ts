@@ -1,5 +1,5 @@
 import { Point, Ttuple, Vector } from "../../Tuples";
-import { IdentityMatrix, Matrix, matrixMultiply, transposeMatrix } from "../index";
+import { IdentityMatrix, Matrix, matrixDeterminant, matrixMinor, matrixMultiply, matrixTranspose, subMatrix } from "../index";
 
 describe("Matrices", () => {
     test("Creating a 4x4 matrix", () => {
@@ -105,11 +105,31 @@ describe("Matrices", () => {
 
     test("Transposing a matrix", () => {
         const matrix = new Matrix([0, 9, 3, 0, 9, 8, 0, 8, 1, 8, 5, 3, 0, 0, 5, 8], 4, 4)
-        expect(Array.from(transposeMatrix(matrix))).toEqual([0, 9, 1, 0, 9, 8, 8, 0, 3, 0, 5, 5, 0, 8, 3, 8])
+        expect(Array.from(matrixTranspose(matrix))).toEqual([0, 9, 1, 0, 9, 8, 8, 0, 3, 0, 5, 5, 0, 8, 3, 8])
     })
 
     test("Transposing an Identity Matrix", () => {
         const identityMat = new IdentityMatrix(4, 4)
-        expect(Array.from(transposeMatrix(identityMat))).toEqual(Array.from(identityMat))
+        expect(Array.from(matrixTranspose(identityMat))).toEqual(Array.from(identityMat))
+    })
+
+    test("Determinant of a 2x2 matrix", () => {
+        const matrix = new Matrix([1, 5, -3, 2], 2, 2)
+        expect(matrixDeterminant(matrix)).toBe(17)
+    })
+
+    test("Spotting subMatrices", () => {
+        const matrix1 = new Matrix([1, 5, 0, -3, 2, 7, 0, 6, -3], 3, 3)
+        const matrix2 = new Matrix([-6, 1, 1, 6, -8, 5, 8, 6, -1, 0, 8, 2, -7, 1, -1, 1], 4, 4)
+
+        expect(Array.from(subMatrix(matrix1, 0, 2))).toEqual(Array.from(new Matrix([-3, 2, 0, 6], 2, 2)))
+        expect(Array.from(subMatrix(matrix2, 2, 1))).toEqual(Array.from(new Matrix([-6, 1, 6, -8, 8, 6, -7, -1, 1], 3, 3)))
+    })
+
+    test("Matrix Minor calculation", () => {
+        const matrix = new Matrix([3, 5, 0, 2, -1, -7, 6, -1, 5], 3, 3)
+
+        expect(matrixMinor(matrix, 1, 0)).toBe(25)
+        expect(matrixMinor(matrix, 1, 0)).toBe(matrixDeterminant(subMatrix(matrix, 1, 0)))
     })
 })

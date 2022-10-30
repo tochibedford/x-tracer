@@ -210,8 +210,8 @@ function canInvertMatrix(matrix: Matrix): boolean {
 
 function matrixInverse(matrix: Matrix): Matrix {
     const det = matrixDeterminant(matrix)
-    if (det ? false : true) { //TODO should an error be thrown if inverse is not possible?
-        return matrix
+    if (det ? false : true) {
+        throw Error("This matrix cannot be inverted, check if it's determinant is 0")
     }
     //matrix of cofactors
     const cofactorList = []

@@ -1,5 +1,5 @@
 import { Point, Vector } from "../../Tuples";
-import { canInvertMatrix, IdentityMatrix, Matrix, matrixCofactor, matrixDeterminant, matrixInverse, matrixMinor, matrixMultiply, matrixTranspose, subMatrix } from "../index";
+import { canInvertMatrix, IdentityMatrix, Matrix, matrixCofactor, matrixDeterminant, matrixInverse, matrixMinor, matrixMultiply, matrixTranspose, scaling, subMatrix, translation } from "../index";
 describe("Matrices", () => {
     test("Creating a 4x4 matrix", () => {
         const matrix = new Matrix([
@@ -143,6 +143,55 @@ describe("Matrices", () => {
         const matrix1 = new Matrix([3, -9, 7, 3, 3, -8, 2, -9, -4, 4, 4, 1, -6, 5, -1, 1], 4, 4);
         const inv = matrixInverse(matrix1);
         expect(matrixMultiply(matrix1, inv).fixed(3)).toEqual(new Matrix(Array.from(new IdentityMatrix(4, 4)), 4, 4)); //-> useless hacks
+    });
+    test("Creating a translation Matrix", () => {
+        const translateMatrix = translation(5, -3, 2);
+        expect(translateMatrix.elementAt(0, 3)).toBe(5);
+        expect(translateMatrix.elementAt(1, 3)).toBe(-3);
+        expect(translateMatrix.elementAt(2, 3)).toBe(2);
+    });
+    test("Multiplying by a translation matrix", () => {
+        const transformMatrix = translation(5, -3, 2);
+        const point = new Point(-3, 4, 5);
+        expect(matrixMultiply(transformMatrix, point).components()).toEqual([2, 1, 7, 1]);
+    });
+    test("Multiplying by the inverse of a transform matrix", () => {
+        const transformMatrix = translation(5, -3, 2);
+        const inverseTransformMatrix = matrixInverse(transformMatrix);
+        const point = new Point(-3, 4, 5);
+        expect(matrixMultiply(inverseTransformMatrix, point).components()).toEqual([-8, 7, 3, 1]);
+    });
+    test("Translation should not affect vectors", () => {
+        const transformMatrix = translation(5, -3, 2);
+        const vector = new Vector(-3, 4, 5);
+        expect(matrixMultiply(transformMatrix, vector).components()).toEqual([-3, 4, 5, 0]);
+    });
+    test("Creating a scaling matrix", () => {
+        const transformMatrix = scaling(2, 3, 4);
+        expect(transformMatrix.elementAt(0, 0)).toBe(2);
+        expect(transformMatrix.elementAt(1, 1)).toBe(3);
+        expect(transformMatrix.elementAt(2, 2)).toBe(4);
+    });
+    test("Scaling a point", () => {
+        const transformMatrix = scaling(2, 3, 4);
+        const point = new Point(-4, 6, 8);
+        expect(matrixMultiply(transformMatrix, point).components()).toEqual([-8, 18, 32, 1]);
+    });
+    test("Scaling a vector", () => {
+        const transformMatrix = scaling(2, 3, 4);
+        const vector = new Vector(-4, 6, 8);
+        expect(matrixMultiply(transformMatrix, vector).components()).toEqual([-8, 18, 32, 0]);
+    });
+    test("Multiplying the inverse of a scaling vector", () => {
+        const transformMatrix = scaling(2, 3, 4);
+        const inverseTransformMatrix = matrixInverse(transformMatrix);
+        const vector = new Vector(-4, 6, 8);
+        expect(matrixMultiply(inverseTransformMatrix, vector).components()).toEqual([-2, 2, 2, 0]);
+    });
+    test("Reflection of a point by scaling", () => {
+        const transformMatrix = scaling(-1, 1, 1);
+        const point = new Point(2, 3, 4);
+        expect(matrixMultiply(transformMatrix, point).components()).toEqual([-2, 3, 4, 1]);
     });
 });
 //# sourceMappingURL=matrices.test.js.map

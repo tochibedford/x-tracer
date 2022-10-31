@@ -43,6 +43,41 @@ class Matrix extends Float64Array {
     }
 
     /**
+     * Returns the equivalent index of the given row & column in a flat-array version of the matrix
+     * @remarks rows and columns here are 0-indexed
+     * @param row The row of the required index
+     * @param column The column of the required index
+     * @returns 
+     */
+    getIndex(row: number, column: number): number {
+        if (row <= this.rows - 1 && row >= 0 && column <= this.columns - 1 && column >= 0) {
+            const index = (row * this.columns) + column // since matrix is stored as a 1D array
+            return index
+        } else if (row > this.rows - 1 || row < 0) {
+            throw RangeError(`Row ${row} is out of range for this matrix and its current shape`)
+        } else if (column > this.columns - 1 || column < 0) {
+            throw RangeError(`Column ${column} is out of range for this matrix and its current shape`)
+        }
+    }
+
+    /**
+     * Sets the element at a given row & column to the given value
+     * @param value - value to set element to
+     * @param row - row of the required element
+     * @param column - column of the required element
+     */
+    setElementAt(value: number, row: number, column: number) {
+        if (row <= this.rows - 1 && row >= 0 && column <= this.columns - 1 && column >= 0) {
+            const index = (row * this.columns) + column // since matrix is stored as a 1D array
+            this[index] = value
+        } else if (row > this.rows - 1 || row < 0) {
+            throw RangeError(`Row ${row} is out of range for this matrix and its current shape`)
+        } else if (column > this.columns - 1 || column < 0) {
+            throw RangeError(`Column ${column} is out of range for this matrix and its current shape`)
+        }
+    }
+
+    /**
      * Get a given row of the matrix and returns it as a typed array
      * @param row - A 0-index number representing the row to retrieve
      * 
@@ -113,9 +148,9 @@ class Matrix extends Float64Array {
      */
     fixed(fractionDigits: number) {
         const result: number[] = []
-        this.forEach(num=>{
+        this.forEach(num => {
             const converted = Number(num.toFixed(fractionDigits))
-            result.push( converted === 0 ? 0:converted)
+            result.push(converted === 0 ? 0 : converted)
         })
         return new Matrix(result, this.dimensions[0], this.dimensions[1])
     }
@@ -413,6 +448,36 @@ function matrixInverse(matrix: Matrix): Matrix {
     return matrix
 }
 
+/**
+ * Creates a translation matrix that can cause a change in position of points
+ * @param x - Value to translate by in the x-axis
+ * @param y - Value to translate by in the y-axis
+ * @param z - Value to translate by in the z-axis
+ * @returns 
+ */
+function translation(x: number, y: number, z: number): Matrix {
+    const translationMatrix = new Matrix(Array.from(new IdentityMatrix(4, 4)), 4, 4)
+    translationMatrix.setElementAt(x, 0, 3)
+    translationMatrix.setElementAt(y, 1, 3)
+    translationMatrix.setElementAt(z, 2, 3)
+    return translationMatrix
+}
+
+/**
+ * Creates a scaling matrix that can scale a point or vector
+ * @param x Value to scale by in the x-axis
+ * @param y Value to scale by in the y-axis
+ * @param z Value to scale by in the z-axis
+ * @returns 
+ */
+function scaling(x: number, y: number, z: number): Matrix {
+    const scalingMatrix = new Matrix(Array.from(new IdentityMatrix(4, 4)), 4, 4)
+    scalingMatrix.setElementAt(x, 0, 0)
+    scalingMatrix.setElementAt(y, 1, 1)
+    scalingMatrix.setElementAt(z, 2, 2)
+    return scalingMatrix
+}
+
 export {
     Matrix,
     IdentityMatrix,
@@ -423,5 +488,7 @@ export {
     matrixMinor,
     matrixCofactor,
     canInvertMatrix,
-    matrixInverse
+    matrixInverse,
+    translation,
+    scaling
 }

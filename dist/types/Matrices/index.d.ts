@@ -23,6 +23,21 @@ declare class Matrix extends Float64Array {
      */
     elementAt(row: number, column: number): number;
     /**
+     * Returns the equivalent index of the given row & column in a flat-array version of the matrix
+     * @remarks rows and columns here are 0-indexed
+     * @param row The row of the required index
+     * @param column The column of the required index
+     * @returns
+     */
+    getIndex(row: number, column: number): number;
+    /**
+     * Sets the element at a given row & column to the given value
+     * @param value - value to set element to
+     * @param row - row of the required element
+     * @param column - column of the required element
+     */
+    setElementAt(value: number, row: number, column: number): void;
+    /**
      * Get a given row of the matrix and returns it as a typed array
      * @param row - A 0-index number representing the row to retrieve
      *
@@ -230,5 +245,21 @@ declare function canInvertMatrix(matrix: Matrix): boolean;
  * ```
  */
 declare function matrixInverse(matrix: Matrix): Matrix;
-export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor, canInvertMatrix, matrixInverse };
+/**
+ * Creates a translation matrix that can cause a change in position of points
+ * @param x - Value to translate by in the x-axis
+ * @param y - Value to translate by in the y-axis
+ * @param z - Value to translate by in the z-axis
+ * @returns
+ */
+declare function translation(x: number, y: number, z: number): Matrix;
+/**
+ * Creates a scaling matrix that can scale a point or vector
+ * @param x Value to scale by in the x-axis
+ * @param y Value to scale by in the y-axis
+ * @param z Value to scale by in the z-axis
+ * @returns
+ */
+declare function scaling(x: number, y: number, z: number): Matrix;
+export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor, canInvertMatrix, matrixInverse, translation, scaling };
 //# sourceMappingURL=index.d.ts.map

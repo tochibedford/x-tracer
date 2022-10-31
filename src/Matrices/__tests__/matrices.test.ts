@@ -9,6 +9,9 @@ import {
     matrixMinor,
     matrixMultiply,
     matrixTranspose,
+    rotationX,
+    rotationY,
+    rotationZ,
     scaling,
     subMatrix,
     translation
@@ -253,10 +256,37 @@ describe("Matrices", () => {
         expect((matrixMultiply(inverseTransformMatrix, vector) as Vector).components()).toEqual([-2, 2, 2, 0])
     })
 
-    test("Reflection of a point by scaling", ()=>{
+    test("Reflection of a point by scaling", () => {
         const transformMatrix = scaling(-1, 1, 1)
         const point = new Point(2, 3, 4)
 
         expect((matrixMultiply(transformMatrix, point) as Point).components()).toEqual([-2, 3, 4, 1])
+    })
+
+    test("Rotating a point around the x axis", () => {
+        const point = new Point(0, 1, 0)
+        const halfRightAngleRotation = rotationX(Math.PI / 4)
+        const rightAngleRotation = rotationX(Math.PI / 2)
+
+        expect((matrixMultiply(halfRightAngleRotation, point) as Point).equals(new Point(0, Math.sqrt(2) / 2, Math.sqrt(2) / 2))).toBeTruthy()
+        expect((matrixMultiply(rightAngleRotation, point) as Point).equals(new Point(0, 0, 1))).toBeTruthy()
+    })
+
+    test("Rotating a point around the y axis", () => {
+        const point = new Point(0, 0, 1)
+        const halfRightAngleRotation = rotationY(Math.PI / 4)
+        const rightAngleRotation = rotationY(Math.PI / 2)
+
+        expect((matrixMultiply(halfRightAngleRotation, point) as Point).equals(new Point(Math.sqrt(2) / 2, 0, Math.sqrt(2) / 2))).toBeTruthy()
+        expect((matrixMultiply(rightAngleRotation, point) as Point).equals(new Point(1, 0, 0))).toBeTruthy()
+    })
+
+    test("Rotating a point around the z axis", () => {
+        const point = new Point(0, 1, 0)
+        const halfRightAngleRotation = rotationZ(Math.PI / 4)
+        const rightAngleRotation = rotationZ(Math.PI / 2)
+
+        expect((matrixMultiply(halfRightAngleRotation, point) as Point).equals(new Point(-Math.sqrt(2) / 2, Math.sqrt(2) / 2, 0))).toBeTruthy()
+        expect((matrixMultiply(rightAngleRotation, point) as Point).equals(new Point(-1, 0, 0))).toBeTruthy()
     })
 })

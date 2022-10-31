@@ -258,8 +258,29 @@ declare function translation(x: number, y: number, z: number): Matrix;
  * @param x Value to scale by in the x-axis
  * @param y Value to scale by in the y-axis
  * @param z Value to scale by in the z-axis
- * @returns
+ * @returns a {@link Matrix} that can scale a point or vector
  */
 declare function scaling(x: number, y: number, z: number): Matrix;
-export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor, canInvertMatrix, matrixInverse, translation, scaling };
+/**
+ * Creates a Matrix that can rotate a tuple around the X-axis
+ * @param angle - This is the anglle (in radians) to rotate the tuple by
+ * @param measuredIn - can be either 'rad' or 'deg', defaults to 'rad'
+ * @returns - A transformation matrix capable of rotating a tuple about the x-axis
+ */
+declare function rotationX(angle: number, measuredIn?: 'rad' | 'deg'): Matrix;
+/**
+ * Creates a Matrix that can rotate a tuple around the Y-axis
+ * @param angle - This is the anglle (in radians) to rotate the tuple by
+ * @param measuredIn - can be either 'rad' or 'deg', defaults to 'rad'
+ * @returns - A transformation matrix capable of rotating a tuple about the y-axis
+ */
+declare function rotationY(angle: number, measuredIn?: 'rad' | 'deg'): Matrix;
+/**
+ * Creates a Matrix that can rotate a tuple around the Z-axis
+ * @param angle - This is the anglle (in radians) to rotate the tuple by
+ * @param measuredIn - can be either 'rad' or 'deg', defaults to 'rad'
+ * @returns - A transformation matrix capable of rotating a tuple about the z-axis
+ */
+declare function rotationZ(angle: number, measuredIn?: 'rad' | 'deg'): Matrix;
+export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor, canInvertMatrix, matrixInverse, translation, scaling, rotationX, rotationY, rotationZ };
 //# sourceMappingURL=index.d.ts.map

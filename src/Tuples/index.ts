@@ -1,3 +1,5 @@
+import { fEqual } from "../helpers"
+
 /**
  * The tuple, is a base type for {@link Point}'s & {@link Vector}'s which are the building blocks for the classes in this module
  * @remarks It contains 4 components. x, y & z hold information to the coordinate system and w represents whether the tuple 
@@ -48,8 +50,15 @@ class Point implements Ttuple {
      * This method checks if the current point instance is identical to some other given point instance and that the other point is an instance of {@link Point}
      * @param other
      */
-    equals = (other: Ttuple) => {
-        if (this.x === other.x && this.y === other.y && this.z === other.z && other instanceof Point) {
+    equals = (other: Ttuple, EPS: number = 0.000001) => {
+        const components = this.components()
+        const otherComponents = other.components()
+        if (other instanceof Point) {
+            for (let i = 0; i < this.components().length; i++) {
+                if (!fEqual(components[i], otherComponents[i], EPS)) {
+                    return false
+                }
+            }
             return true
         } else {
             return false
@@ -113,8 +122,15 @@ class Vector implements Ttuple {
      * Checks if the current vector instance is identical to some other given vector instance and that the other vector is an instance of {@link Vector}
      * @param other - Another tuple (Vector) to check for equality 
      */
-    equals = (other: Ttuple) => {
-        if (this.x === other.x && this.y === other.y && this.z === other.z && other instanceof Vector) {
+    equals = (other: Ttuple, EPS: number = 0.000001) => {
+        const components = this.components()
+        const otherComponents = other.components()
+        if (other instanceof Point) {
+            for (let i = 0; i < this.components().length; i++) {
+                if (!fEqual(components[i], otherComponents[i], EPS)) {
+                    return false
+                }
+            }
             return true
         } else {
             return false

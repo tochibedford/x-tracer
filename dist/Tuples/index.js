@@ -1,3 +1,4 @@
+import { fEqual } from "../helpers";
 /**
  * A class that implements the {@link Ttuple} base type and represents a literal point a a 3-Dimensional Coordinate system
  *
@@ -21,8 +22,15 @@ class Point {
          * This method checks if the current point instance is identical to some other given point instance and that the other point is an instance of {@link Point}
          * @param other
          */
-        this.equals = (other) => {
-            if (this.x === other.x && this.y === other.y && this.z === other.z && other instanceof Point) {
+        this.equals = (other, EPS = 0.000001) => {
+            const components = this.components();
+            const otherComponents = other.components();
+            if (other instanceof Point) {
+                for (let i = 0; i < this.components().length; i++) {
+                    if (!fEqual(components[i], otherComponents[i], EPS)) {
+                        return false;
+                    }
+                }
                 return true;
             }
             else {
@@ -76,8 +84,15 @@ class Vector {
          * Checks if the current vector instance is identical to some other given vector instance and that the other vector is an instance of {@link Vector}
          * @param other - Another tuple (Vector) to check for equality
          */
-        this.equals = (other) => {
-            if (this.x === other.x && this.y === other.y && this.z === other.z && other instanceof Vector) {
+        this.equals = (other, EPS = 0.000001) => {
+            const components = this.components();
+            const otherComponents = other.components();
+            if (other instanceof Point) {
+                for (let i = 0; i < this.components().length; i++) {
+                    if (!fEqual(components[i], otherComponents[i], EPS)) {
+                        return false;
+                    }
+                }
                 return true;
             }
             else {

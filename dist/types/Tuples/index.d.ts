@@ -37,7 +37,7 @@ declare class Point implements Ttuple {
      * This method checks if the current point instance is identical to some other given point instance and that the other point is an instance of {@link Point}
      * @param other
      */
-    equals: (other: Ttuple) => boolean;
+    equals: (other: Ttuple, EPS?: number) => boolean;
     /**
      * Negates the values of the components of the Point, except for component w
      */
@@ -74,7 +74,7 @@ declare class Vector implements Ttuple {
      * Checks if the current vector instance is identical to some other given vector instance and that the other vector is an instance of {@link Vector}
      * @param other - Another tuple (Vector) to check for equality
      */
-    equals: (other: Ttuple) => boolean;
+    equals: (other: Ttuple, EPS?: number) => boolean;
     /**
      * Negates the values of the components of the Vector, except for component w
      */

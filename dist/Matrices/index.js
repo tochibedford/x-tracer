@@ -450,7 +450,7 @@ function translation(x, y, z) {
  * @param x Value to scale by in the x-axis
  * @param y Value to scale by in the y-axis
  * @param z Value to scale by in the z-axis
- * @returns
+ * @returns a {@link Matrix} that can scale a point or vector
  */
 function scaling(x, y, z) {
     const scalingMatrix = new Matrix(Array.from(new IdentityMatrix(4, 4)), 4, 4);
@@ -459,5 +459,56 @@ function scaling(x, y, z) {
     scalingMatrix.setElementAt(z, 2, 2);
     return scalingMatrix;
 }
-export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor, canInvertMatrix, matrixInverse, translation, scaling };
+/**
+ * Creates a Matrix that can rotate a tuple around the X-axis
+ * @param angle - This is the anglle (in radians) to rotate the tuple by
+ * @param measuredIn - can be either 'rad' or 'deg', defaults to 'rad'
+ * @returns - A transformation matrix capable of rotating a tuple about the x-axis
+ */
+function rotationX(angle, measuredIn = 'rad') {
+    if (measuredIn === 'deg') {
+        angle = angle * (Math.PI / 180);
+    }
+    const rotationMatrix = new Matrix(Array.from(new IdentityMatrix(4, 4)), 4, 4);
+    rotationMatrix.setElementAt(Math.cos(angle), 1, 1);
+    rotationMatrix.setElementAt(-Math.sin(angle), 1, 2);
+    rotationMatrix.setElementAt(Math.sin(angle), 2, 1);
+    rotationMatrix.setElementAt(Math.cos(angle), 2, 2);
+    return rotationMatrix;
+}
+/**
+ * Creates a Matrix that can rotate a tuple around the Y-axis
+ * @param angle - This is the anglle (in radians) to rotate the tuple by
+ * @param measuredIn - can be either 'rad' or 'deg', defaults to 'rad'
+ * @returns - A transformation matrix capable of rotating a tuple about the y-axis
+ */
+function rotationY(angle, measuredIn = 'rad') {
+    if (measuredIn === 'deg') {
+        angle = angle * (Math.PI / 180);
+    }
+    const rotationMatrix = new Matrix(Array.from(new IdentityMatrix(4, 4)), 4, 4);
+    rotationMatrix.setElementAt(Math.cos(angle), 0, 0);
+    rotationMatrix.setElementAt(Math.sin(angle), 0, 2);
+    rotationMatrix.setElementAt(-Math.sin(angle), 2, 0);
+    rotationMatrix.setElementAt(Math.cos(angle), 2, 2);
+    return rotationMatrix;
+}
+/**
+ * Creates a Matrix that can rotate a tuple around the Z-axis
+ * @param angle - This is the anglle (in radians) to rotate the tuple by
+ * @param measuredIn - can be either 'rad' or 'deg', defaults to 'rad'
+ * @returns - A transformation matrix capable of rotating a tuple about the z-axis
+ */
+function rotationZ(angle, measuredIn = 'rad') {
+    if (measuredIn === 'deg') {
+        angle = angle * (Math.PI / 180);
+    }
+    const rotationMatrix = new Matrix(Array.from(new IdentityMatrix(4, 4)), 4, 4);
+    rotationMatrix.setElementAt(Math.cos(angle), 0, 0);
+    rotationMatrix.setElementAt(-Math.sin(angle), 0, 1);
+    rotationMatrix.setElementAt(Math.sin(angle), 1, 0);
+    rotationMatrix.setElementAt(Math.cos(angle), 1, 1);
+    return rotationMatrix;
+}
+export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor, canInvertMatrix, matrixInverse, translation, scaling, rotationX, rotationY, rotationZ };
 //# sourceMappingURL=index.js.map

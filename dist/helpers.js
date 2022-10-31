@@ -1,5 +1,4 @@
-const EPS = 0.0001;
-function fEqual(a, b) {
+function fEqual(a, b, EPS = 0.0001) {
     if (Math.abs(a - b) < EPS) {
         return true;
     }

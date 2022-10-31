@@ -1,4 +1,4 @@
-import { dotProduct } from "../helpers"
+import { dotProduct, fEqual } from "../helpers"
 import { Point, Ttuple, tuple, Vector } from "../Tuples"
 
 /**
@@ -97,13 +97,27 @@ class Matrix extends Float64Array {
      * matrix1.equals(matrix3) // false
      * ```
      */
-    equals(matrix: Matrix): boolean {
+    equals(matrix: Matrix, EPS: number = 0.0001): boolean {
         for (let i = 0; i < this.length; i++) {
-            if (this[i] !== matrix[i]) {
+            if (!fEqual(this[i], matrix[i], EPS)) {
                 return false
             }
         }
         return true
+    }
+
+    /**
+     * Used to produce a fixed digit version of the matrix, same as running element.toFixed(...) on every single element of the matrix
+     * @param fractionDigits 
+     * @returns 
+     */
+    fixed(fractionDigits: number) {
+        const result: number[] = []
+        this.forEach(num=>{
+            const converted = Number(num.toFixed(fractionDigits))
+            result.push( converted === 0 ? 0:converted)
+        })
+        return new Matrix(result, this.dimensions[0], this.dimensions[1])
     }
 
     /**

@@ -133,5 +133,16 @@ describe("Matrices", () => {
         expect(inverse.elementAt(2, 3)).toEqual(105 / 532);
         expect(Array.from(inverse)).toEqual([116 / 532, 240 / 532, 128 / 532, -24 / 532, -430 / 532, -775 / 532, -236 / 532, 277 / 532, -42 / 532, -119 / 532, -28 / 532, 105 / 532, -278 / 532, -433 / 532, -160 / 532, 163 / 532]);
     });
+    test("Multiplying a product by its inverse", () => {
+        const matrix1 = new Matrix([3, -9, 7, 3, 3, -8, 2, -9, -4, 4, 4, 1, -6, 5, -1, 1], 4, 4);
+        const matrix2 = new Matrix([8, 2, 2, 2, 3, -1, 7, 0, 7, 0, 5, 4, 6, -2, 0, 5], 4, 4);
+        const matrix3 = matrixMultiply(matrix1, matrix2);
+        expect(matrixMultiply(matrix3, matrixInverse(matrix2)).equals(matrix1, 0.000000001)).toBeTruthy();
+    });
+    test("Multiplying a matrix by its inverse", () => {
+        const matrix1 = new Matrix([3, -9, 7, 3, 3, -8, 2, -9, -4, 4, 4, 1, -6, 5, -1, 1], 4, 4);
+        const inv = matrixInverse(matrix1);
+        expect(matrixMultiply(matrix1, inv).fixed(3)).toEqual(new Matrix(Array.from(new IdentityMatrix(4, 4)), 4, 4)); //-> useless hacks
+    });
 });
 //# sourceMappingURL=matrices.test.js.map

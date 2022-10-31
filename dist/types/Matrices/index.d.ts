@@ -60,7 +60,13 @@ declare class Matrix extends Float64Array {
      * matrix1.equals(matrix3) // false
      * ```
      */
-    equals(matrix: Matrix): boolean;
+    equals(matrix: Matrix, EPS?: number): boolean;
+    /**
+     * Used to produce a fixed digit version of the matrix, same as running element.toFixed(...) on every single element of the matrix
+     * @param fractionDigits
+     * @returns
+     */
+    fixed(fractionDigits: number): Matrix;
     /**
      * The dimensions of the matrix in the format [rows, columns]
      */

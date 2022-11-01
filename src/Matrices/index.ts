@@ -264,7 +264,7 @@ function matrixMultiply<T extends Matrix | Ttuple>(matrix1: Matrix | Ttuple, mat
  * const matrix = new Matrix([0, 9, 3, 0,
  *                            9, 8, 0, 8,
  *                            1, 8, 5, 3, 
- *                            0, 0, 5, 8], 4, 4)
+ *                            0, 0, 5, 8], 4, 4) 
  * Array.from(matrixTranspose(matrix)))
  * ->   [0, 9, 1, 0,
  *      9, 8, 8, 0,

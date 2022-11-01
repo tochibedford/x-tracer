@@ -510,5 +510,15 @@ function rotationZ(angle, measuredIn = 'rad') {
     rotationMatrix.setElementAt(Math.cos(angle), 1, 1);
     return rotationMatrix;
 }
+function shearing(XY, XZ, YX, YZ, ZX, ZY) {
+    const shearingMatrix = new Matrix(Array.from(new IdentityMatrix(4, 4)), 4, 4);
+    shearingMatrix.setElementAt(XY, 0, 1);
+    shearingMatrix.setElementAt(XZ, 0, 2);
+    shearingMatrix.setElementAt(YX, 1, 0);
+    shearingMatrix.setElementAt(YZ, 1, 2);
+    shearingMatrix.setElementAt(ZX, 2, 0);
+    shearingMatrix.setElementAt(ZY, 2, 1);
+    return shearingMatrix;
+}
 export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor, canInvertMatrix, matrixInverse, translation, scaling, rotationX, rotationY, rotationZ };
 //# sourceMappingURL=index.js.map

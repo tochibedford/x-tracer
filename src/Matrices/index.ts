@@ -219,40 +219,39 @@ class IdentityMatrix extends Matrix {
  *              16, 26, 46, 42], 4, 4)
  * ```
  */
-function matrixMultiply(matrix1: Matrix | Ttuple, matrix2: Matrix | Ttuple): Matrix | Ttuple {
+function matrixMultiply<T extends Matrix | Ttuple>(matrix1: Matrix | Ttuple, matrix2: T): T {
     if ((matrix1 instanceof Vector || matrix1 instanceof Point) && (matrix2 instanceof Vector || matrix2 instanceof Point)) { // do not multiply 2 tuples with this function
         throw TypeError("Do not multiply 2 tuples using this function")
     } else if (matrix1 instanceof Vector || matrix1 instanceof Point) { // if matrix1 is a tuple
         matrix1 = matrix1 as Ttuple
-        matrix2 = matrix2 as Matrix
         const result: number[] = []
-        for (let column = 0; column < matrix2.dimensions[1]; column++) {
-            result.push(dotProduct(matrix1.components(), Array.from(matrix2.getColumn(column))))
+        for (let column = 0; column < (matrix2 as Matrix).dimensions[1]; column++) {
+            result.push(dotProduct(matrix1.components(), Array.from((matrix2 as Matrix).getColumn(column))))
         }
-        return new Matrix(result, 1, matrix2.dimensions[1])
+        return new Matrix(result, 1, (matrix2 as Matrix).dimensions[1]) as T
     } else if (matrix2 instanceof Vector || matrix2 instanceof Point) { // if matrix2 is a tuple
         matrix1 = matrix1 as Matrix
-        matrix2 = matrix2 as Ttuple
-        matrix2 = new Matrix(matrix2.components(), matrix2.components().length, 1) // treat matrix2 like a single column matrix
+        // matrix2 = matrix2 as Ttuple
+        const matrix3 = new Matrix(matrix2.components(), matrix2.components().length, 1) // treat matrix2 like a single column matrix
         const result: number[] = []
         for (let row = 0; row < matrix1.dimensions[0]; row++) {
             const currentRow = matrix1.getRow(row)
-            result.push(dotProduct(Array.from(currentRow), Array.from(matrix2)))
+            result.push(dotProduct(Array.from(currentRow), Array.from(matrix3)))
         }
-        return tuple(result[0], result[1], result[2], result[3] as (0 | 1))
+        return tuple(result[0], result[1], result[2], result[3] as (0 | 1)) as T
     } else { // both are actually matrices
         if ((matrix1 as Matrix).dimensions[1] !== (matrix2 as Matrix).dimensions[0]) // checking if the shape of the matrices are multipliable
             throw Error(`The number columns of first matrix: ${(matrix1 as Matrix).dimensions[1]} and number of rows of second matrix: ${(matrix2 as Matrix).dimensions[0]} have to be the same`)
         const result = []
         matrix1 = matrix1 as Matrix
-        matrix2 = matrix2 as Matrix
+        // matrix2 = matrix2 as Matrix
         for (let row = 0; row < matrix1.dimensions[0]; row++) {
             const currentRow = matrix1.getRow(row)
-            for (let column = 0; column < matrix2.dimensions[1]; column++) {
-                result.push(dotProduct(Array.from(currentRow), Array.from(matrix2.getColumn(column))))
+            for (let column = 0; column < (matrix2 as Matrix).dimensions[1]; column++) {
+                result.push(dotProduct(Array.from(currentRow), Array.from((matrix2 as Matrix).getColumn(column))))
             }
         }
-        return new Matrix(result, matrix1.dimensions[0], matrix2.dimensions[1])
+        return new Matrix(result, matrix1.dimensions[0], (matrix2 as Matrix).dimensions[1]) as T
     }
 }
 
@@ -562,5 +561,6 @@ export {
     scaling,
     rotationX,
     rotationY,
-    rotationZ
+    rotationZ,
+    shearing
 }

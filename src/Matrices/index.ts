@@ -535,6 +535,18 @@ function rotationZ(angle: number, measuredIn: 'rad' | 'deg' = 'rad'): Matrix {
     return rotationMatrix
 }
 
+function shearing(XY: number, XZ: number, YX: number, YZ:number, ZX:number, ZY:number): Matrix {
+    const shearingMatrix = new Matrix(Array.from(new IdentityMatrix(4, 4)), 4, 4)
+    shearingMatrix.setElementAt(XY, 0,1)
+    shearingMatrix.setElementAt(XZ, 0,2)
+    shearingMatrix.setElementAt(YX, 1,0)
+    shearingMatrix.setElementAt(YZ, 1,2)
+    shearingMatrix.setElementAt(ZX, 2,0)
+    shearingMatrix.setElementAt(ZY, 2,1)
+
+    return shearingMatrix
+}
+
 export {
     Matrix,
     IdentityMatrix,

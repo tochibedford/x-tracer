@@ -125,7 +125,7 @@ class Vector implements Ttuple {
     equals = (other: Ttuple, EPS: number = 0.000001) => {
         const components = this.components()
         const otherComponents = other.components()
-        if (other instanceof Point) {
+        if (other instanceof Vector) {
             for (let i = 0; i < this.components().length; i++) {
                 if (!fEqual(components[i], otherComponents[i], EPS)) {
                     return false

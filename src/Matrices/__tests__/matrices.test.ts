@@ -291,10 +291,10 @@ describe("Matrices", () => {
         expect(matrixMultiply(rightAngleRotation, point).equals(new Point(-1, 0, 0))).toBeTruthy()
     })
 
-    // test("Shearing moves x in propertion to y", () => {
-    //     const shearingTransform = shearing(1, 0, 0, 0, 0, 0)
-    //     const point = new Point(2, 3, 4)
-        
-    //     expect((matrixMultiply(shearingTransform, point) ))
-    // })
+    test("Shearing moves x in propertion to y", () => {
+        const shearingTransform = shearing(1, 0, 0, 0, 0, 0)
+        const point = new Point(2, 3, 4)
+
+        expect(matrixMultiply(shearingTransform, point).components()).toEqual([5, 3, 4, 1])
+    })
 })

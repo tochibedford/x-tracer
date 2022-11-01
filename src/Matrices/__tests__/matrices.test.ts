@@ -345,4 +345,32 @@ describe("Matrices", () => {
         })
     })
 
+    describe("Chaining Transformations", () => {
+        test("Individual tranformations are applied in sequence", () => {
+            const point = new Point(1, 0, 1)
+            const rotate = rotationX(90, "deg")
+            const scale = scaling(5, 5, 5)
+            const translate = translation(10, 5, 7)
+
+            const rotated = matrixMultiply(rotate, point)
+            expect(rotated.equals(new Point(1, -1, 0))).toBeTruthy()
+
+            const scaled = matrixMultiply(scale, rotated)
+            expect(scaled.equals(new Point(5, -5, 0))).toBeTruthy()
+
+            const translated = matrixMultiply(translate, scaled)
+            expect(translated.components()).toEqual([15, 0, 7, 1])
+        })
+        
+        test("Chained Transformations must be applied in reverse order", () => {
+            const point = new Point(1, 0, 1)
+            const rotate = rotationX(90, "deg")
+            const scale = scaling(5, 5, 5)
+            const translate = translation(10, 5, 7)
+    
+            expect(matrixMultiply(translate, matrixMultiply(scale, matrixMultiply(rotate, point))).equals(new Point(15, 0, 7))).toBeTruthy()
+        })
+    })
+
+
 })

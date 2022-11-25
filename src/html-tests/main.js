@@ -21,7 +21,7 @@ downloadButton.addEventListener("click", () => {
 }
 )
 
-const p = new Projectile(new Point(0, 1, 0), new Vector(2, 1, 0))
+const p = new Projectile(new Point(0, 1, 0), new Vector(5, 1, 0))
 const e = new Environment(new Vector(0, -0.1, 0), new Vector(-0.01, 0, 0))
 
 const redColor = new Color(1, 0, 0)

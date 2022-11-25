@@ -1,4 +1,4 @@
-import { fEqual } from "../helpers"
+import { fEqual } from "../helpers.js"
 
 /**
  * The tuple, is a base type for {@link Point}'s & {@link Vector}'s which are the building blocks for the classes in this module

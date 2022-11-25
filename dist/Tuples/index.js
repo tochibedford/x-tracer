@@ -1,4 +1,4 @@
-import { fEqual } from "../helpers";
+import { fEqual } from "../helpers.js";
 /**
  * A class that implements the {@link Ttuple} base type and represents a literal point a a 3-Dimensional Coordinate system
  *

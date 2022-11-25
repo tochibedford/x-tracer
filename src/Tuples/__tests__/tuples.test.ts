@@ -35,8 +35,6 @@ describe("Creating Vectors", () => {
     let vector = new Vector(4, -4, 3)
     let vectorFromTuple = tuple(4, -4, 3, 0)
     test("Vector class creates tuples with w = 0", () => {
-        console.log(vector)
-        console.log(vectorFromTuple)
         expect(vector.equals(vectorFromTuple as Vector)).toBe(true)
     })
 })

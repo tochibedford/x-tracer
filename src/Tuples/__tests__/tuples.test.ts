@@ -82,14 +82,14 @@ describe("Operations on tuples", () => {
     })
 
     test("Negating a tuple", () => {
-        const vector = tuple(1, -2, 3, 0) as Vector
+        const vector = tuple(1, -2, 3, 0)
         vector.negate()
         expect(vector.components()).toEqual([-1, 2, -3, 0])
         expect(negateTuple(vector).components()).toEqual([1, -2, 3, 0])
     })
 
     test("Multiplying a tuple by a scalar", () => {
-        const vector = tuple(1, -2, 3, 0) as Vector
+        const vector = tuple(1, -2, 3, 0)
         expect(scalarMult(vector, 3.5).components()).toEqual([3.5, -7, 10.5, 0])
     })
 

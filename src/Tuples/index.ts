@@ -247,7 +247,7 @@ function negateTuple<T extends Point | Vector>(tuple1: T): T {
  * @param factor Factor by which to multiply the components of the tuple
  * @returns A new tuple with its components scaled by a given factor
  */
-function scalarMult(tuple1: Ttuple, factor: number) {
+function scalarMult<T extends Point | Vector>(tuple1: T, factor: number): T {
     return tuple(tuple1.x * factor, tuple1.y * factor, tuple1.z * factor, tuple1.w)
 }
 

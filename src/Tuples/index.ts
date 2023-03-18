@@ -248,7 +248,7 @@ function negateTuple<T extends Point | Vector>(tuple1: T): T {
  * @returns A new tuple with its components scaled by a given factor
  */
 function scalarMult<T extends Point | Vector>(tuple1: T, factor: number): T {
-    return tuple(tuple1.x * factor, tuple1.y * factor, tuple1.z * factor, tuple1.w)
+    return tuple(tuple1.x * factor, tuple1.y * factor, tuple1.z * factor, tuple1.w) as T
 }
 
 /**
@@ -262,8 +262,8 @@ function scalarMult<T extends Point | Vector>(tuple1: T, factor: number): T {
  * @param factor Factor by which to divide the components of the tuple
  * @returns A new tuple with its components scaled by a given factor
  */
-function scalarDiv(tuple1: Ttuple, factor: number) {
-    return tuple(tuple1.x / factor, tuple1.y / factor, tuple1.z / factor, tuple1.w)
+function scalarDiv<T extends Point | Vector>(tuple1: Ttuple, factor: number): T {
+    return tuple(tuple1.x / factor, tuple1.y / factor, tuple1.z / factor, tuple1.w) as T
 }
 
 /**
@@ -276,7 +276,7 @@ function scalarDiv(tuple1: Ttuple, factor: number) {
  * @param tuple Tuple to find magnitude of
  * @returns A number that represents the magnitude of the given tuple
  */
-function magnitude(tuple: Ttuple): number {
+function magnitude(tuple: Point | Vector): number {
     return Math.sqrt(tuple.components().reduce((prev, curr) => {
         prev += curr ** 2
         return prev
@@ -293,7 +293,10 @@ function magnitude(tuple: Ttuple): number {
  * @param tuple Tuple to normalize
  * @returns A new normalized Vector
  */
-function normalize(tuple: Ttuple): Ttuple {
+function normalize(tuple: Vector): Vector {
+    if (!(tuple instanceof Vector)) {
+        throw TypeError("tuple must be a vector")
+    }
     const tupleMag = magnitude(tuple)
     const [nX, nY, nZ] = tuple.components().map(component => {
         return component / tupleMag

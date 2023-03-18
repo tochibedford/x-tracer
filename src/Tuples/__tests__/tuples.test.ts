@@ -94,12 +94,12 @@ describe("Operations on tuples", () => {
     })
 
     test("Multiplying a tuple by a scalar (fraction)", () => {
-        const vector = tuple(1, -2, 3, 0) as Vector
+        const vector = tuple(1, -2, 3, 0)
         expect(scalarMult(vector, 0.5).components()).toEqual([0.5, -1, 1.5, 0])
     })
 
     test("Dividing a tuple by a scalar", () => {
-        const vector = tuple(1, -2, 3, 0) as Vector
+        const vector = tuple(1, -2, 3, 0)
         expect(scalarDiv(vector, 2).components()).toEqual([0.5, -1, 1.5, 0])
     })
 

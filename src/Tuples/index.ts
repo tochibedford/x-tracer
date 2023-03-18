@@ -122,7 +122,7 @@ class Vector implements Ttuple {
      * @param other The second tuple to peform a dot product with
      * @returns A number that is the result of the dot product of the two tuples
      */
-    dot = (other: Point | Vector): number => {
+    dot = (other: Vector): number => {
         return this.x * other.x + this.y * other.y + this.z * other.z + this.w * other.w
     }
 
@@ -130,7 +130,7 @@ class Vector implements Ttuple {
      * Checks if the current vector instance is identical to some other given vector instance and that the other vector is an instance of {@link Vector}
      * @param other - Another tuple (Vector) to check for equality 
      */
-    equals = (other: Point | Vector, EPS: number = 0.000001) => {
+    equals = (other: Vector, EPS: number = 0.000001) => {
         const components = this.components()
         const otherComponents = other.components()
         if (other instanceof Vector) {

@@ -1,6 +1,7 @@
 import { fEqual } from "../helpers.js"
 
 type ConditionalNotPoint<T> = T extends Point ? Vector : Point | Vector; // returns a Vector is T is Point, and a Pointer or Vector if T isn't
+type ConditionalNotPointIfVector<T> = T extends Vector ? Vector : Point | Vector; // returns a Vector is T is Point, and a Pointer or Vector if T isn't
 type WBasedTuple<W extends 0 | 1> = W extends 1 ? Point : Vector //returns a Point if W is 1 and a Vector if W is 0
 type PointIfEitherIsPoint<T, U> = T extends Point ? Point : U extends Point ? Point : Vector; //returns a point if either T or U is a Point
 
@@ -210,7 +211,10 @@ function tupleSum<T extends Point | Vector, U extends ConditionalNotPoint<T>>(tu
  * 
  * @throws RangeError - Thrown if user is attempting to subtract a Point from a Vector i.e (Vector-Point)
  */
-function tupleSubtract(tuple1: Ttuple, tuple2: Ttuple): Ttuple {
+type TupleSubtractionResult<T, U> = T extends Point ? U extends Point ? Vector : Point :
+    T extends Vector ? U extends Vector ? Vector : never :
+    never;; //returns a point if either T or U is a Point
+function tupleSubtract<T extends Point | Vector, U extends ConditionalNotPointIfVector<T>>(tuple1: T, tuple2: U): TupleSubtractionResult<T, U> {
     if (tuple1 instanceof Vector && tuple2 instanceof Point) {
         throw RangeError("Cannot subtract Point from Vector; w becomes -1")
     }

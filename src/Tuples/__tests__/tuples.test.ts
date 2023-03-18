@@ -77,6 +77,7 @@ describe("Operations on tuples", () => {
     test("Subtracting Point from vector throws error", () => {
         const vector = new Vector(3, -2, 5)
         const point = new Point(4, -2, 5)
+        // @ts-ignore
         expect(() => { tupleSubtract(vector, point) }).toThrowError(RangeError)
     })
 

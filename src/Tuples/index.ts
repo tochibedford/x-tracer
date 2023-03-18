@@ -4,6 +4,9 @@ type ConditionalNotPoint<T> = T extends Point ? Vector : Point | Vector; // retu
 type ConditionalNotPointIfVector<T> = T extends Vector ? Vector : Point | Vector; // returns a Vector is T is Point, and a Pointer or Vector if T isn't
 type WBasedTuple<W extends 0 | 1> = W extends 1 ? Point : Vector //returns a Point if W is 1 and a Vector if W is 0
 type PointIfEitherIsPoint<T, U> = T extends Point ? Point : U extends Point ? Point : Vector; //returns a point if either T or U is a Point
+type TupleSubtractionResult<T, U> = T extends Point ? U extends Point ? Vector : Point :
+    T extends Vector ? U extends Vector ? Vector : never :
+    never;; //returns a point if either T or U is a Point
 
 /**
  * The tuple, is a base type for {@link Point}'s & {@link Vector}'s which are the building blocks for the classes in this module
@@ -211,9 +214,6 @@ function tupleSum<T extends Point | Vector, U extends ConditionalNotPoint<T>>(tu
  * 
  * @throws RangeError - Thrown if user is attempting to subtract a Point from a Vector i.e (Vector-Point)
  */
-type TupleSubtractionResult<T, U> = T extends Point ? U extends Point ? Vector : Point :
-    T extends Vector ? U extends Vector ? Vector : never :
-    never;; //returns a point if either T or U is a Point
 function tupleSubtract<T extends Point | Vector, U extends ConditionalNotPointIfVector<T>>(tuple1: T, tuple2: U): TupleSubtractionResult<T, U> {
     if (tuple1 instanceof Vector && tuple2 instanceof Point) {
         throw RangeError("Cannot subtract Point from Vector; w becomes -1")
@@ -232,7 +232,7 @@ function tupleSubtract<T extends Point | Vector, U extends ConditionalNotPointIf
  * @param tuple1 Tuple to negate
  * @returns A tuple that is the result of negating the components (besides w) of a given tuple
  */
-function negateTuple(tuple1: Ttuple): Ttuple {
+function negateTuple<T extends Point | Vector>(tuple1: T): T {
     return tuple(-tuple1.x, -tuple1.y, -tuple1.z, tuple1.w)
 }
 

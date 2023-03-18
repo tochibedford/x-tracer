@@ -1,5 +1,9 @@
 import { fEqual } from "../helpers.js"
 
+type ConditionalNotPoint<T> = T extends Point ? Vector : Point | Vector; // returns a Vector is T is Point, and a Pointer or Vector if T isn't
+type WBasedTuple<W extends 0 | 1> = W extends 1 ? Point : Vector //returns a Point if W is 1 and a Vector if W is 0
+type PointIfEitherIsPoint<T, U> = T extends Point ? Point : U extends Point ? Point : Vector; //returns a point if either T or U is a Point
+
 /**
  * The tuple, is a base type for {@link Point}'s & {@link Vector}'s which are the building blocks for the classes in this module
  * @remarks It contains 4 components. x, y & z hold information to the coordinate system and w represents whether the tuple 
@@ -50,7 +54,7 @@ class Point implements Ttuple {
      * This method checks if the current point instance is identical to some other given point instance and that the other point is an instance of {@link Point}
      * @param other
      */
-    equals = (other: Ttuple, EPS: number = 0.000001) => {
+    equals = (other: Point | Vector, EPS: number = 0.000001) => {
         const components = this.components()
         const otherComponents = other.components()
         if (other instanceof Point) {
@@ -105,7 +109,7 @@ class Vector implements Ttuple {
      * @param other The second tuple to cross multiply with
      * @returns A new vector that is the cross product of the other two vectors
      */
-    cross = (other: Ttuple) => {
+    cross = (other: Point | Vector) => {
         return new Vector((this.y * other.z - this.z * other.y), -(this.x * other.z - this.z * other.x), (this.x * other.y - this.y * other.x))
     }
 
@@ -114,7 +118,7 @@ class Vector implements Ttuple {
      * @param other The second tuple to peform a dot product with
      * @returns A number that is the result of the dot product of the two tuples
      */
-    dot = (other: Ttuple): number => {
+    dot = (other: Point | Vector): number => {
         return this.x * other.x + this.y * other.y + this.z * other.z + this.w * other.w
     }
 
@@ -122,7 +126,7 @@ class Vector implements Ttuple {
      * Checks if the current vector instance is identical to some other given vector instance and that the other vector is an instance of {@link Vector}
      * @param other - Another tuple (Vector) to check for equality 
      */
-    equals = (other: Ttuple, EPS: number = 0.000001) => {
+    equals = (other: Point | Vector, EPS: number = 0.000001) => {
         const components = this.components()
         const otherComponents = other.components()
         if (other instanceof Vector) {
@@ -156,11 +160,11 @@ class Vector implements Ttuple {
  * @param w Component w
  * @returns A tuple that is either a Vector or a Point
  */
-function tuple(x: number, y: number, z: number, w: 0 | 1): Ttuple {
+function tuple<W extends 0 | 1, U extends WBasedTuple<W>>(x: number, y: number, z: number, w: W): U {
     if (w === 1) {
-        return new Point(x, y, z)
+        return new Point(x, y, z) as U
     } else {
-        return new Vector(x, y, z)
+        return new Vector(x, y, z) as U
     }
 }
 
@@ -181,7 +185,7 @@ function tuple(x: number, y: number, z: number, w: 0 | 1): Ttuple {
  * @returns A new tuple that
  * @throws RangeError - Thrown if user attempts to add two Points
  */
-function tupleSum(tuple1: Ttuple, tuple2: Ttuple): Ttuple {
+function tupleSum<T extends Point | Vector, U extends ConditionalNotPoint<T>>(tuple1: T, tuple2: U): PointIfEitherIsPoint<T, U> {
     if (tuple1 instanceof Point && tuple2 instanceof Point) {
         throw RangeError("Cannot add 2 Points; w becomes > 1")
     }

@@ -50,6 +50,7 @@ describe("Operations on tuples", () => {
     test("Adding two Points throws Error", () => {
         const point1 = tuple(3, -2, 5, 1)
         const point2 = tuple(4, -2, 5, 1)
+        // @ts-ignore
         expect(() => { tupleSum(point1, point2) }).toThrowError(RangeError)
     })
 

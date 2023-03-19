@@ -16,8 +16,18 @@ class Ray {
     }
 }
 
-// the returns a number of points where the ray intersects the sphere
-function intersects(s: Sphere, r: Ray): number[] {
+class Intersection {
+    t: number
+    object: Sphere
+
+    constructor(t: number, object: Sphere) {
+        this.t = t
+        this.object = object
+    }
+}
+
+// this returns a number of points where the ray intersects the sphere
+function intersect(s: Sphere, r: Ray): Intersection[] {
     const distanceFromSphereToRay = tupleSubtract(r.origin, s.position)
     const a = r.direction.dot(r.direction)
     const b = 2 * r.direction.dot(distanceFromSphereToRay)
@@ -28,11 +38,17 @@ function intersects(s: Sphere, r: Ray): number[] {
     } else {
         const int1 = (-b - Math.sqrt(discriminant)) / (2 * a)
         const int2 = (-b + Math.sqrt(discriminant)) / (2 * a)
-        return [int1, int2]
+        return [new Intersection(int1, s), new Intersection(int2, s)]
     }
+}
+
+function intersections(...args: Intersection[]) {
+    return args
 }
 
 export {
     Ray,
-    intersects
+    Intersection,
+    intersect,
+    intersections
 }

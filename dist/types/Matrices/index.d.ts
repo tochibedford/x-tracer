@@ -130,7 +130,7 @@ declare class IdentityMatrix extends Matrix {
  *              16, 26, 46, 42], 4, 4)
  * ```
  */
-declare function matrixMultiply(matrix1: Matrix | Ttuple, matrix2: Matrix | Ttuple): Matrix | Ttuple;
+declare function matrixMultiply<T extends Matrix | Ttuple>(matrix1: Matrix | Ttuple, matrix2: T): T;
 /**
  * This function transposes a matrix, i.e. turns its rows to columns and its columns to rows
  *
@@ -282,5 +282,6 @@ declare function rotationY(angle: number, measuredIn?: 'rad' | 'deg'): Matrix;
  * @returns - A transformation matrix capable of rotating a tuple about the z-axis
  */
 declare function rotationZ(angle: number, measuredIn?: 'rad' | 'deg'): Matrix;
-export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor, canInvertMatrix, matrixInverse, translation, scaling, rotationX, rotationY, rotationZ };
+declare function shearing(XY: number, XZ: number, YX: number, YZ: number, ZX: number, ZY: number): Matrix;
+export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor, canInvertMatrix, matrixInverse, translation, scaling, rotationX, rotationY, rotationZ, shearing };
 //# sourceMappingURL=index.d.ts.map

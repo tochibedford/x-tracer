@@ -1,0 +1,1 @@
+//# sourceMappingURL=clock.d.ts.map

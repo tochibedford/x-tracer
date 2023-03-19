@@ -218,7 +218,6 @@ function matrixMultiply(matrix1, matrix2) {
     }
     else if (matrix1 instanceof Vector || matrix1 instanceof Point) { // if matrix1 is a tuple
         matrix1 = matrix1;
-        matrix2 = matrix2;
         const result = [];
         for (let column = 0; column < matrix2.dimensions[1]; column++) {
             result.push(dotProduct(matrix1.components(), Array.from(matrix2.getColumn(column))));
@@ -227,12 +226,12 @@ function matrixMultiply(matrix1, matrix2) {
     }
     else if (matrix2 instanceof Vector || matrix2 instanceof Point) { // if matrix2 is a tuple
         matrix1 = matrix1;
-        matrix2 = matrix2;
-        matrix2 = new Matrix(matrix2.components(), matrix2.components().length, 1); // treat matrix2 like a single column matrix
+        // matrix2 = matrix2 as Ttuple
+        const matrix3 = new Matrix(matrix2.components(), matrix2.components().length, 1); // treat matrix2 like a single column matrix
         const result = [];
         for (let row = 0; row < matrix1.dimensions[0]; row++) {
             const currentRow = matrix1.getRow(row);
-            result.push(dotProduct(Array.from(currentRow), Array.from(matrix2)));
+            result.push(dotProduct(Array.from(currentRow), Array.from(matrix3)));
         }
         return tuple(result[0], result[1], result[2], result[3]);
     }
@@ -241,7 +240,7 @@ function matrixMultiply(matrix1, matrix2) {
             throw Error(`The number columns of first matrix: ${matrix1.dimensions[1]} and number of rows of second matrix: ${matrix2.dimensions[0]} have to be the same`);
         const result = [];
         matrix1 = matrix1;
-        matrix2 = matrix2;
+        // matrix2 = matrix2 as Matrix
         for (let row = 0; row < matrix1.dimensions[0]; row++) {
             const currentRow = matrix1.getRow(row);
             for (let column = 0; column < matrix2.dimensions[1]; column++) {
@@ -520,5 +519,5 @@ function shearing(XY, XZ, YX, YZ, ZX, ZY) {
     shearingMatrix.setElementAt(ZY, 2, 1);
     return shearingMatrix;
 }
-export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor, canInvertMatrix, matrixInverse, translation, scaling, rotationX, rotationY, rotationZ };
+export { Matrix, IdentityMatrix, matrixMultiply, matrixTranspose, matrixDeterminant, subMatrix, matrixMinor, matrixCofactor, canInvertMatrix, matrixInverse, translation, scaling, rotationX, rotationY, rotationZ, shearing };
 //# sourceMappingURL=index.js.map

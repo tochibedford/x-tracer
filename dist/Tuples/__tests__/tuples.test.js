@@ -30,8 +30,6 @@ describe("Creating Vectors", () => {
     let vector = new Vector(4, -4, 3);
     let vectorFromTuple = tuple(4, -4, 3, 0);
     test("Vector class creates tuples with w = 0", () => {
-        console.log(vector);
-        console.log(vectorFromTuple);
         expect(vector.equals(vectorFromTuple)).toBe(true);
     });
 });
@@ -45,6 +43,7 @@ describe("Operations on tuples", () => {
     test("Adding two Points throws Error", () => {
         const point1 = tuple(3, -2, 5, 1);
         const point2 = tuple(4, -2, 5, 1);
+        // @ts-ignore
         expect(() => { tupleSum(point1, point2); }).toThrowError(RangeError);
     });
     test("Subtracting 2 tuples: Point - Point -> Vector", () => {
@@ -67,6 +66,7 @@ describe("Operations on tuples", () => {
     test("Subtracting Point from vector throws error", () => {
         const vector = new Vector(3, -2, 5);
         const point = new Point(4, -2, 5);
+        // @ts-ignore
         expect(() => { tupleSubtract(vector, point); }).toThrowError(RangeError);
     });
     test("Negating a tuple", () => {

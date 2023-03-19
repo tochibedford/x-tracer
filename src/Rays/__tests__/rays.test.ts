@@ -28,4 +28,36 @@ describe("Rays", () => {
 
         expect(intersections).toEqual([4.0, 6.0])
     })
+
+    test("A ray intersects a sphere at a tangent", () => {
+        const r = new Ray(new Point(0, 1, -5), new Vector(0, 0, 1))
+        const s = new Sphere()
+        const intersections = intersects(s, r)
+
+        expect(intersections).toEqual([5.0, 5.0])
+    })
+
+    test("A ray misses a sphere", () => {
+        const r = new Ray(new Point(0, 2, -5), new Vector(0, 0, 1))
+        const s = new Sphere()
+        const intersections = intersects(s, r)
+
+        expect(intersections).toEqual([])
+    })
+
+    test("A ray originates inside a sphere", () => {
+        const r = new Ray(new Point(0, 0, 0), new Vector(0, 0, 1))
+        const s = new Sphere()
+        const intersections = intersects(s, r)
+
+        expect(intersections).toEqual([-1.0, 1.0])
+    })
+
+    test("A sphere is behind a ray", () => {
+        const r = new Ray(new Point(0, 0, 5), new Vector(0, 0, 1))
+        const s = new Sphere()
+        const intersections = intersects(s, r)
+
+        expect(intersections).toEqual([-6.0, -4.0])
+    })
 })

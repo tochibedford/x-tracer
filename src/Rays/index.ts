@@ -1,4 +1,4 @@
-import { Point, Vector } from "../Tuples";
+import { Point, scalarMult, tupleSum, Vector } from "../Tuples";
 
 class Ray {
     origin: Point
@@ -7,6 +7,11 @@ class Ray {
     constructor(origin: Point, direction: Vector) {
         this.origin = origin
         this.direction = direction
+    }
+
+    // calculates point at a given distance alng the ray
+    position(distance: number) {
+        return tupleSum(this.origin, scalarMult(this.direction, distance))
     }
 }
 

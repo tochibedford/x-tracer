@@ -50,6 +50,7 @@ describe("Operations on tuples", () => {
     test("Adding two Points throws Error", () => {
         const point1 = tuple(3, -2, 5, 1)
         const point2 = tuple(4, -2, 5, 1)
+        // @ts-ignore
         expect(() => { tupleSum(point1, point2) }).toThrowError(RangeError)
     })
 
@@ -76,28 +77,29 @@ describe("Operations on tuples", () => {
     test("Subtracting Point from vector throws error", () => {
         const vector = new Vector(3, -2, 5)
         const point = new Point(4, -2, 5)
+        // @ts-ignore
         expect(() => { tupleSubtract(vector, point) }).toThrowError(RangeError)
     })
 
     test("Negating a tuple", () => {
-        const vector = tuple(1, -2, 3, 0) as Vector
+        const vector = tuple(1, -2, 3, 0)
         vector.negate()
         expect(vector.components()).toEqual([-1, 2, -3, 0])
         expect(negateTuple(vector).components()).toEqual([1, -2, 3, 0])
     })
 
     test("Multiplying a tuple by a scalar", () => {
-        const vector = tuple(1, -2, 3, 0) as Vector
+        const vector = tuple(1, -2, 3, 0)
         expect(scalarMult(vector, 3.5).components()).toEqual([3.5, -7, 10.5, 0])
     })
 
     test("Multiplying a tuple by a scalar (fraction)", () => {
-        const vector = tuple(1, -2, 3, 0) as Vector
+        const vector = tuple(1, -2, 3, 0)
         expect(scalarMult(vector, 0.5).components()).toEqual([0.5, -1, 1.5, 0])
     })
 
     test("Dividing a tuple by a scalar", () => {
-        const vector = tuple(1, -2, 3, 0) as Vector
+        const vector = tuple(1, -2, 3, 0)
         expect(scalarDiv(vector, 2).components()).toEqual([0.5, -1, 1.5, 0])
     })
 

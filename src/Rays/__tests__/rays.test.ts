@@ -1,5 +1,6 @@
-import { Ray } from "../index"
+import { intersects, Ray } from "../index"
 import { Point, Vector } from "../../Tuples"
+import { Sphere } from "../../helpers"
 
 describe("Rays", () => {
     test("Creating/instantiating a ray", () => {
@@ -18,5 +19,13 @@ describe("Rays", () => {
         expect(r.position(1).components()).toEqual(new Point(3, 3, 4).components())
         expect(r.position(-1).components()).toEqual(new Point(1, 3, 4).components())
         expect(r.position(2.5).components()).toEqual(new Point(4.5, 3, 4).components())
+    })
+
+    test("A ray intersects a sphere at two points", () => {
+        const r = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1))
+        const s = new Sphere()
+        const intersections = intersects(s, r)
+
+        expect(intersections).toEqual([4.0, 6.0])
     })
 })

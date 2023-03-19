@@ -1,4 +1,5 @@
 import { fEqual } from "../helpers.js";
+; //returns a point if either T or U is a Point
 /**
  * A class that implements the {@link Ttuple} base type and represents a literal point a a 3-Dimensional Coordinate system
  *
@@ -246,6 +247,9 @@ function magnitude(tuple) {
  * @returns A new normalized Vector
  */
 function normalize(tuple) {
+    if (!(tuple instanceof Vector)) {
+        throw TypeError("tuple must be a vector");
+    }
     const tupleMag = magnitude(tuple);
     const [nX, nY, nZ] = tuple.components().map(component => {
         return component / tupleMag;

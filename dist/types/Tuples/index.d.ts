@@ -1,3 +1,8 @@
+declare type ConditionalNotPoint<T> = T extends Point ? Vector : Point | Vector;
+declare type ConditionalNotPointIfVector<T> = T extends Vector ? Vector : Point | Vector;
+declare type WBasedTuple<W extends 0 | 1> = W extends 1 ? Point : Vector;
+declare type PointIfEitherIsPoint<T, U> = T extends Point ? Point : U extends Point ? Point : Vector;
+declare type TupleSubtractionResult<T, U> = T extends Point ? U extends Point ? Vector : Point : T extends Vector ? U extends Vector ? Vector : never : never;
 /**
  * The tuple, is a base type for {@link Point}'s & {@link Vector}'s which are the building blocks for the classes in this module
  * @remarks It contains 4 components. x, y & z hold information to the coordinate system and w represents whether the tuple
@@ -37,7 +42,7 @@ declare class Point implements Ttuple {
      * This method checks if the current point instance is identical to some other given point instance and that the other point is an instance of {@link Point}
      * @param other
      */
-    equals: (other: Ttuple, EPS?: number) => boolean;
+    equals: (other: Point | Vector, EPS?: number) => boolean;
     /**
      * Negates the values of the components of the Point, except for component w
      */
@@ -63,18 +68,18 @@ declare class Vector implements Ttuple {
      * @param other The second tuple to cross multiply with
      * @returns A new vector that is the cross product of the other two vectors
      */
-    cross: (other: Ttuple) => Vector;
+    cross: (other: Point | Vector) => Vector;
     /**
      * Performs a dot product operation on two tuples.
      * @param other The second tuple to peform a dot product with
      * @returns A number that is the result of the dot product of the two tuples
      */
-    dot: (other: Ttuple) => number;
+    dot: (other: Vector) => number;
     /**
      * Checks if the current vector instance is identical to some other given vector instance and that the other vector is an instance of {@link Vector}
      * @param other - Another tuple (Vector) to check for equality
      */
-    equals: (other: Ttuple, EPS?: number) => boolean;
+    equals: (other: Vector, EPS?: number) => boolean;
     /**
      * Negates the values of the components of the Vector, except for component w
      */
@@ -89,7 +94,7 @@ declare class Vector implements Ttuple {
  * @param w Component w
  * @returns A tuple that is either a Vector or a Point
  */
-declare function tuple(x: number, y: number, z: number, w: 0 | 1): Ttuple;
+declare function tuple<W extends 0 | 1, U extends WBasedTuple<W>>(x: number, y: number, z: number, w: W): U;
 /**
  * Produces the sum of two tuples, the 2 tuples can be of any kind but both cannot be a {@link Point} at the same time
  * Point + Vector -> Point
@@ -107,7 +112,7 @@ declare function tuple(x: number, y: number, z: number, w: 0 | 1): Ttuple;
  * @returns A new tuple that
  * @throws RangeError - Thrown if user attempts to add two Points
  */
-declare function tupleSum(tuple1: Ttuple, tuple2: Ttuple): Ttuple;
+declare function tupleSum<T extends Point | Vector, U extends ConditionalNotPoint<T>>(tuple1: T, tuple2: U): PointIfEitherIsPoint<T, U>;
 /**
  * Produces the sum of two tuples, the 2 tuples can be of any kind but a {@link Point} cannot be subtracted from a {@link Vector}
  * Point - Vector -> Point
@@ -126,7 +131,7 @@ declare function tupleSum(tuple1: Ttuple, tuple2: Ttuple): Ttuple;
  *
  * @throws RangeError - Thrown if user is attempting to subtract a Point from a Vector i.e (Vector-Point)
  */
-declare function tupleSubtract(tuple1: Ttuple, tuple2: Ttuple): Ttuple;
+declare function tupleSubtract<T extends Point | Vector, U extends ConditionalNotPointIfVector<T>>(tuple1: T, tuple2: U): TupleSubtractionResult<T, U>;
 /**
  * Negates the values of the components of a tuple, except for component w.
  * This can be used where you do not want the negation to affect the original tuple but rather to produce a new, negated tuple
@@ -138,7 +143,7 @@ declare function tupleSubtract(tuple1: Ttuple, tuple2: Ttuple): Ttuple;
  * @param tuple1 Tuple to negate
  * @returns A tuple that is the result of negating the components (besides w) of a given tuple
  */
-declare function negateTuple(tuple1: Ttuple): Ttuple;
+declare function negateTuple<T extends Point | Vector>(tuple1: T): T;
 /**
  * Performs a scalar multiplication on a tuple by a given factor.
  * @example
@@ -150,7 +155,7 @@ declare function negateTuple(tuple1: Ttuple): Ttuple;
  * @param factor Factor by which to multiply the components of the tuple
  * @returns A new tuple with its components scaled by a given factor
  */
-declare function scalarMult(tuple1: Ttuple, factor: number): Ttuple;
+declare function scalarMult<T extends Point | Vector>(tuple1: T, factor: number): T;
 /**
  * Performs a scalar division on a tuple by a given factor.
  * @example
@@ -162,7 +167,7 @@ declare function scalarMult(tuple1: Ttuple, factor: number): Ttuple;
  * @param factor Factor by which to divide the components of the tuple
  * @returns A new tuple with its components scaled by a given factor
  */
-declare function scalarDiv(tuple1: Ttuple, factor: number): Ttuple;
+declare function scalarDiv<T extends Point | Vector>(tuple1: Ttuple, factor: number): T;
 /**
  * Produces the magnitude of the given tuple
  * @example
@@ -173,7 +178,7 @@ declare function scalarDiv(tuple1: Ttuple, factor: number): Ttuple;
  * @param tuple Tuple to find magnitude of
  * @returns A number that represents the magnitude of the given tuple
  */
-declare function magnitude(tuple: Ttuple): number;
+declare function magnitude(tuple: Point | Vector): number;
 /**
  * Normalizes the components of a vector such that its magnitude is now 1.
  * @example
@@ -184,6 +189,6 @@ declare function magnitude(tuple: Ttuple): number;
  * @param tuple Tuple to normalize
  * @returns A new normalized Vector
  */
-declare function normalize(tuple: Ttuple): Ttuple;
+declare function normalize(tuple: Vector): Vector;
 export { Ttuple, tuple, tupleSum, tupleSubtract, negateTuple, scalarMult, scalarDiv, magnitude, normalize, Point, Vector, };
 //# sourceMappingURL=index.d.ts.map
